@@ -4,7 +4,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Button from "../components/Button.astro";
 import EnquiryForm from "../components/EnquiryForm.astro";
 import PageHeader from "../components/PageHeader.astro";
-import { PHONE_DISPLAY, WHATSAPP_NUMBER, whatsappLink } from "../site";
+import { EMAIL, INSTAGRAM_URL, PHONE_DISPLAY, WHATSAPP_NUMBER, whatsappLink } from "../site";
 
 // Lead times are placeholders until the client confirms them (AGENTS.md: never invent one)
 const noticeTimes = [
@@ -16,7 +16,7 @@ const noticeTimes = [
 ---
 
 <BaseLayout
-	title="Enquire · [Business Name]"
+	title="Enquire · LightCakes"
 	description="Get in touch about a custom cake, corporate treats or event catering — by form, WhatsApp or email."
 >
 	<PageHeader
@@ -44,14 +44,13 @@ const noticeTimes = [
 			<section class="flex flex-col gap-3 px-1">
 				<h2 class="text-xl">Other ways to reach us</h2>
 				<ul class="text-sm leading-loose text-ink-soft">
-					<li>[email address]</li>
+					<li>{EMAIL}</li>
 					<li>
 						<a href={`tel:+${WHATSAPP_NUMBER}`} class="text-rose underline underline-offset-4">{PHONE_DISPLAY}</a>
 					</li>
-					<li>[City, UK] — delivery across [area]</li>
+					<li>Leeds, UK — delivery across [area]</li>
 					<li>
-						<!-- TODO: replace # with the real Instagram profile URL -->
-						<a href="#" class="text-rose underline underline-offset-4">Instagram</a>
+						<a href={INSTAGRAM_URL} class="text-rose underline underline-offset-4">Instagram</a>
 					</li>
 				</ul>
 			</section>

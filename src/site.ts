@@ -6,6 +6,12 @@ export const WHATSAPP_NUMBER = "447523857318";
 // The same number, formatted for people to read
 export const PHONE_DISPLAY = "+44 7523 857318";
 
+export const INSTAGRAM_URL = "https://www.instagram.com/lightcakes_/";
+
+// Business email: placeholder until the domain (and its mailbox) exists.
+// Shown in the footer, enquire page, corporate quote section and privacy notice.
+export const EMAIL = "[email address]";
+
 // From the Web3Forms dashboard. It's designed to be public (it ends up in the
 // page's HTML), so it's fine to commit. Submissions go to the email it was
 // created with.

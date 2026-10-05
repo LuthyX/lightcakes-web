@@ -6,7 +6,7 @@ import CtaBand from "../components/CtaBand.astro";
 import Gallery from "../components/Gallery.astro";
 import Photo from "../components/Photo.astro";
 import ProcessSteps from "../components/ProcessSteps.astro";
-import { whatsappLink } from "../site";
+import { INSTAGRAM_URL, whatsappLink } from "../site";
 
 const paths = [
 	{
@@ -53,7 +53,7 @@ const testimonials = [
 ];
 ---
 
-<BaseLayout title="[Business Name] · Bespoke cakes & branded treats">
+<BaseLayout title="LightCakes · Bespoke cakes & branded treats">
 	<!-- HERO -->
 	<section class="mx-auto flex max-w-content flex-col items-center gap-3.5 px-5 pt-8 pb-7 text-center lg:gap-4.5 lg:px-30 lg:pt-14 lg:pb-9">
 		<p class="text-sm font-semibold tracking-widest text-rose uppercase">Baked by hand, in small batches</p>
@@ -127,9 +127,8 @@ const testimonials = [
 	<section id="gallery" class="mx-auto flex max-w-content flex-col gap-6 px-5 pb-9 lg:px-14 lg:pb-15">
 		<div class="flex flex-wrap items-end justify-between gap-2">
 			<h2 class="text-2xl">Recent work</h2>
-			<!-- TODO: replace # with the real Instagram profile URL -->
 			<a
-				href="#"
+				href={INSTAGRAM_URL}
 				class="flex min-h-11 items-center text-sm font-semibold text-rose underline underline-offset-4"
 			>
 				See more on Instagram <span aria-hidden="true">&nbsp;→</span>
@@ -144,7 +143,7 @@ const testimonials = [
 			<Photo alt="The baker at work in her kitchen" tone="ground" class="h-60 lg:h-75" />
 			<div class="flex flex-col gap-4">
 				<p class="text-sm font-semibold tracking-widest text-rose uppercase">The person behind it</p>
-				<h2 class="text-2xl">Hello, I'm [Name]</h2>
+				<h2 class="text-2xl">Hello, I'm Abimbola</h2>
 				<p class="leading-loose text-ink-soft">
 					[Her story — how the business started, what she cares about, why she bakes the way she does. Two or three
 					short paragraphs in her own voice.]

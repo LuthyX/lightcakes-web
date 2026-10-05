@@ -155,8 +155,13 @@ Direction is "Warm & Handcrafted" — ivory ground, warm brown text, pale pink a
 ## Legal
 
 - **UK GDPR** — both forms collect personal data, so the site needs a short privacy notice linked from every form and the footer.
-- **Allergens** — as a UK food business she has allergen information obligations. Build an allergens line into every product description, keep the allergen question on the enquiry form, and link allergen information from the footer.
+- **Allergens** — as a UK food business she has allergen information obligations. Keep the allergen question on the enquiry form, and link `/allergens` from the footer.
+  - **Shop products** (bought online) must show the full ingredients list **before purchase**, with each of the 14 allergens in **bold** — the UK labelling format. It sits in an "Ingredients & allergens" `<details>` toggle on each product card, from the product's `ingredients` field. Don't add a separate "Contains: …" line repeating the bold allergens; a "may contain" warning is fine (`mayContain`).
+  - **Corporate and bespoke products** are quoted, not bought on the page: one note under the grid says allergens are listed in the quote, linking to `/allergens`. No per-product allergen line.
+  - Ingredients and allergens must come from her recipes — never fill them in from assumptions.
 
 ## Placeholders
 
-Business name, photography, testimonials, prices and lead times are **not yet final**. Use clearly marked placeholders (`[Business Name]`, `[YOUR PRICE]`, `[X] days`) and keep image files swappable. **Never invent a business name, a fake testimonial, a made-up price or a lead time.**
+**The business name is LightCakes** (one word, capital C — confirmed by Peter). **The owner is Abimbola Ademoluti, based in Leeds, UK** (delivery area not yet confirmed — keep `[area]`). Instagram: `https://www.instagram.com/lightcakes_/` (set as `INSTAGRAM_URL` in `src/site.ts`). The logo source is `public/images/main.png` (1080×1350, LC monogram + wordmark on an off-white background); `public/images/logo-mark.png` (monogram, transparent) is used in the nav and `public/favicon.png` / `favicon.ico` are generated from it.
+
+Photography, testimonials, prices and lead times are **not yet final**. Use clearly marked placeholders (`[YOUR PRICE]`, `[X] days`) and keep image files swappable. **Never invent a fake testimonial, a made-up price or a lead time.**

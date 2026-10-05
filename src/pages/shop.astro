@@ -9,46 +9,57 @@ import Photo from "../components/Photo.astro";
 // created in her Stripe dashboard. No cart, no checkout code (see CLAUDE.md).
 // Leave it "" until the link exists: the button then says "Enquire to order"
 // and goes to /enquire instead, so the page still works without it.
+//
+// ingredients: the full list, with each of the 14 allergens wrapped in
+// <strong>…</strong> (UK rules: allergens emphasised in the ingredients list,
+// available before purchase). e.g.
+//   "<strong>Wheat</strong> flour, sugar, <strong>butter</strong> (<strong>milk</strong>), free-range <strong>eggs</strong>"
+// mayContain: cross-contamination warning, e.g. "May contain nuts." — "" if none.
 const products = [
 	{
 		name: "[Product name]",
 		description: "[Short description — what's in it, how many, how it's packaged.]",
-		allergens: "[Contains: allergens]",
+		ingredients: "[Full ingredients list, allergens in <strong>bold</strong>]",
+		mayContain: "[May contain: e.g. nuts — or leave empty]",
 		price: "[YOUR PRICE]",
 		paymentLink: "", // TODO: Stripe Payment Link
 	},
 	{
 		name: "[Product name]",
 		description: "[Short description — what's in it, how many, how it's packaged.]",
-		allergens: "[Contains: allergens]",
+		ingredients: "[Full ingredients list, allergens in <strong>bold</strong>]",
+		mayContain: "[May contain: e.g. nuts — or leave empty]",
 		price: "[YOUR PRICE]",
 		paymentLink: "", // TODO: Stripe Payment Link
 	},
 	{
 		name: "[Product name]",
 		description: "[Short description — what's in it, how many, how it's packaged.]",
-		allergens: "[Contains: allergens]",
+		ingredients: "[Full ingredients list, allergens in <strong>bold</strong>]",
+		mayContain: "[May contain: e.g. nuts — or leave empty]",
 		price: "[YOUR PRICE]",
 		paymentLink: "", // TODO: Stripe Payment Link
 	},
 	{
 		name: "[Product name]",
 		description: "[Short description — what's in it, how many, how it's packaged.]",
-		allergens: "[Contains: allergens]",
+		ingredients: "[Full ingredients list, allergens in <strong>bold</strong>]",
+		mayContain: "[May contain: e.g. nuts — or leave empty]",
 		price: "[YOUR PRICE]",
 		paymentLink: "", // TODO: Stripe Payment Link
 	},
 	{
 		name: "[Product name]",
 		description: "[Short description — what's in it, how many, how it's packaged.]",
-		allergens: "[Contains: allergens]",
+		ingredients: "[Full ingredients list, allergens in <strong>bold</strong>]",
+		mayContain: "[May contain: e.g. nuts — or leave empty]",
 		price: "[YOUR PRICE]",
 		paymentLink: "", // TODO: Stripe Payment Link
 	},
 ];
 ---
 
-<BaseLayout title="Shop · [Business Name]">
+<BaseLayout title="Shop · LightCakes">
 	<!-- HEADER -->
 	<section class="mx-auto flex max-w-content flex-col items-center gap-3.5 px-5 pt-10 pb-8 text-center lg:px-14 lg:pt-13">
 		<p class="text-sm font-semibold tracking-widest text-rose uppercase">Ready to order</p>
@@ -74,8 +85,18 @@ const products = [
 						<Photo alt={product.name} tone={i % 2 === 0 ? "pink" : "sand"} class="h-47.5" />
 						<h2 class="text-xl">{product.name}</h2>
 						<p class="grow text-sm text-ink-soft">{product.description}</p>
-						<!-- Legal: every product shows its allergens before purchase -->
-						<p class="text-xs text-ink-soft">{product.allergens}</p>
+						<!-- Legal: full ingredients with allergens in bold, on the page before purchase.
+						     <details>/<summary> is the browser's built-in expand/collapse: no JavaScript,
+						     and keyboard/screen-reader friendly out of the box. -->
+						<details class="text-sm text-ink-soft">
+							<summary class="flex min-h-11 cursor-pointer items-center font-semibold text-ink">
+								Ingredients &amp; allergens
+							</summary>
+							<!-- set:html outputs the string as HTML (so <strong> works). Safe here because
+							     it's our own data, never something a visitor typed. -->
+							<p class="[&_strong]:text-ink" set:html={product.ingredients} />
+							{product.mayContain && <p class="mt-2 font-semibold">{product.mayContain}</p>}
+						</details>
 						<div class="mt-1 flex items-center justify-between gap-4">
 							<p class="font-display text-xl">{product.price}</p>
 							<Button href={product.paymentLink || "/enquire"}>
@@ -106,8 +127,8 @@ const products = [
 			<div class="flex flex-col gap-2.5">
 				<h2 class="text-xl">Allergens</h2>
 				<p class="text-sm leading-loose text-ink-soft">
-					All our bakes are made in a kitchen that handles [allergen list]. Full ingredient details are on our{" "}
-					<a href="/allergens" class="text-rose underline underline-offset-4">allergen information</a> page — and you can
+					All our bakes are made in a kitchen that handles [allergen list]. Each product's full ingredients are listed under it, with allergens in bold. See our{" "}
+					<a href="/allergens" class="text-rose underline underline-offset-4">allergen information</a> page for more — and you can
 					tell us about any allergies at checkout.
 				</p>
 			</div>

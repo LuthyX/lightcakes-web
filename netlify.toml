@@ -1,0 +1,9 @@
+# Netlify reads this automatically when the repo is connected, so the build
+# settings live in git instead of only in the Netlify dashboard.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  # package.json requires Node >= 22.12; pin it so Netlify doesn't build with an older default
+  NODE_VERSION = "22"

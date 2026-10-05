@@ -1,0 +1,64 @@
+---
+// DRAFT allergen information — the owner must complete every [placeholder].
+// The list of 14 allergens is the legal list for the UK; the rest depends on
+// her kitchen and recipes.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import Prose from "../components/Prose.astro";
+import { EMAIL } from "../site";
+
+// The 14 allergens UK food businesses must declare
+const allergens = [
+	"Celery",
+	"Cereals containing gluten (such as wheat, barley, oats)",
+	"Crustaceans",
+	"Eggs",
+	"Fish",
+	"Lupin",
+	"Milk",
+	"Molluscs",
+	"Mustard",
+	"Peanuts",
+	"Sesame",
+	"Soya",
+	"Sulphur dioxide and sulphites",
+	"Tree nuts (such as almonds, hazelnuts, walnuts)",
+];
+---
+
+<BaseLayout
+	title="Allergen information · LightCakes"
+	description="Allergen information for cakes and treats from LightCakes."
+>
+	<PageHeader
+		title="Allergen information"
+		intro="Everything is baked in one small kitchen, so if you have an allergy, please read this and talk to us before you order."
+	/>
+
+	<Prose>
+		<h2>What our kitchen handles</h2>
+		<p>
+			We use [list the allergens her kitchen handles, e.g. gluten, eggs, milk, soya, nuts] in our kitchen. Even when a
+			recipe doesn't contain an allergen, we can't promise it hasn't come into contact with one.
+		</p>
+
+		<h2>The 14 allergens</h2>
+		<p>
+			UK law lists 14 allergens that food businesses must tell you about. Every product in our shop lists its full
+			ingredients with these allergens in bold. For corporate and bespoke orders, we'll list them in your quote before
+			you pay.
+		</p>
+		<ul>
+			{allergens.map((allergen) => <li>{allergen}</li>)}
+		</ul>
+
+		<h2>Free-from and dietary requirements</h2>
+		<p>[What she can and can't make, e.g. gluten-free, vegan, nut-free — and any limits on how safe those can be.]</p>
+
+		<h2>Ask us</h2>
+		<p>
+			If you're not sure, ask before ordering. You can tell us about allergies on our <a href="/enquire">enquiry form</a>{" "}
+			or by emailing {EMAIL}.
+		</p>
+	</Prose>
+</BaseLayout>

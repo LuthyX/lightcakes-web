@@ -1,0 +1,79 @@
+---
+// DRAFT privacy notice — the owner must review and complete every [placeholder]
+// before the forms go live. It describes what this site actually does: two
+// forms via Web3Forms, WhatsApp links, Stripe Payment Links, Netlify hosting,
+// Google Fonts. Update it if any of those change.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import Prose from "../components/Prose.astro";
+import { EMAIL } from "../site";
+---
+
+<BaseLayout title="Privacy notice · LightCakes" description="How LightCakes uses the personal details you share with us.">
+	<PageHeader
+		title="Privacy notice"
+		intro="What we collect when you get in touch or order, why, and what you can ask us to do with it."
+	/>
+
+	<Prose>
+		<p><em>Last updated: [date]</em></p>
+
+		<h2>Who we are</h2>
+		<p>
+			LightCakes is run by Abimbola Ademoluti, based in Leeds, UK. We're responsible for the personal details
+			you share with us. You can contact us about anything on this page at {EMAIL}.
+		</p>
+
+		<h2>What we collect</h2>
+		<ul>
+			<li>
+				<strong>When you send an enquiry or ask for a quote:</strong> your name, email address and, if you give them, your
+				phone number, company name, delivery postcode, budget and the details of your order.
+			</li>
+			<li>
+				<strong>Allergies and dietary requirements,</strong> if you tell us about them. This can count as health information,
+				so we only use it to make your order safely.
+			</li>
+			<li><strong>When you message us on WhatsApp:</strong> your phone number and your messages.</li>
+			<li>
+				<strong>When you order from our shop:</strong> payment is handled by Stripe. We receive your name, email, delivery
+				address, phone number and anything you add at checkout (such as your delivery date) — never your card details.
+			</li>
+		</ul>
+
+		<h2>Why we use it</h2>
+		<p>
+			Only to reply to you, quote for, make and deliver your order, and send invoices. We use it because you've asked us
+			to and it's needed to take your order. We don't send marketing emails, and we never sell or share your details for
+			anyone else's marketing.
+		</p>
+
+		<h2>Who else handles it</h2>
+		<p>We use a few trusted services to run the website and take orders:</p>
+		<ul>
+			<li><strong>Web3Forms</strong> delivers the website's forms to our email inbox.</li>
+			<li><strong>Stripe</strong> takes payments and sends invoices.</li>
+			<li><strong>WhatsApp</strong> (Meta), if you choose to message us there.</li>
+			<li><strong>Netlify</strong> hosts the website.</li>
+			<li><strong>Google Fonts</strong> supplies the website's fonts, so Google sees your IP address when a page loads.</li>
+			<li>[Email provider, e.g. Google Workspace or Microsoft 365], where our emails are stored.</li>
+		</ul>
+		<p>The website doesn't use cookies or tracking.</p>
+
+		<h2>How long we keep it</h2>
+		<p>
+			[Enquiries that don't become orders: deleted after X months. Orders and invoices: kept for as long as HMRC
+			requires — confirm the period with your accountant.]
+		</p>
+
+		<h2>Your rights</h2>
+		<p>
+			You can ask us for a copy of the details we hold about you, to correct them, or to delete them. Email
+			{EMAIL} and we'll reply within one month.
+		</p>
+		<p>
+			If you're unhappy with how we've handled your details, please tell us first. You can also complain to the
+			Information Commissioner's Office at <a href="https://ico.org.uk/make-a-complaint/">ico.org.uk</a>.
+		</p>
+	</Prose>
+</BaseLayout>
