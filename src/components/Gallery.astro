@@ -20,12 +20,14 @@ const { photos, tones = ["pink", "sand"] } = Astro.props;
 <ul class="grid grid-cols-2 gap-4 lg:grid-cols-4">
 	{
 		photos.map((photo, i) => (
-			<li>
+			// overflow-hidden clips the photo as it zooms; "group" lets the photo react
+			// to hovering anywhere on the <li> (group-hover:)
+			<li class="group overflow-hidden rounded-sm">
 				<Photo
 					{...photo}
 					tone={tones[i % tones.length]}
 					sizes="(min-width: 1024px) 25vw, 50vw"
-					class="h-56 lg:h-72"
+					class="h-56 transition-transform duration-500 motion-safe:group-hover:scale-105 lg:h-72"
 				/>
 			</li>
 		))

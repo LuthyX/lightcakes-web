@@ -128,7 +128,12 @@ Direction is "Warm & Handcrafted" — ivory ground, warm brown text, pale pink a
 
 **Pale pink is a fill colour, never text on a light background** — it fails contrast. Accent text uses `text-rose` or `text-ink`.
 
-**Typography:** Fraunces (`font-display`) for headings at regular weight (400), with its `SOFT` and `WONK` axes turned up for a warm, handcrafted feel (set once in `global.css` via `--font-display--font-variation-settings`). Karla (`font-body`) for everything else. Both loaded from Google Fonts in `BaseLayout.astro`. Replaced Cormorant Garamond in Nov 2026 because it read as generic. No script or handwritten fonts for headings or body text.
+**Typography:** Fraunces (`font-display`) for headings at regular weight (400), with its `SOFT` and `WONK` axes turned up for a warm, handcrafted feel (set once in `global.css` via `--font-display--font-variation-settings`). Karla (`font-body`) for everything else. Both loaded from Google Fonts in `BaseLayout.astro`. Replaced Cormorant Garamond in Nov 2026 because it read as generic. No script or handwritten fonts for headings or body text. Allura (`font-script`) is used **only** for Abimbola's handwritten signature (homepage about teaser and the end of her story on `/about`) — never for headings or body text.
+
+**Cake-like details** (soft, not "bubbly" — her logo is an elegant serif, and corporate buyers need to trust the site):
+- `scallop-top` / `scallop-bottom` on a coloured section (`bg-pink-tint`, `bg-sand`, `bg-pink`) give it a piped-icing edge. Use on coloured bands only, not on every section.
+- `<Photo arch />` gives a photo an arched top. Used for the hero strip, the about portrait and Custom Cakes categories — keep it for feature photos, not grids.
+- Motion is subtle and always respects reduced-motion: sections fade up on scroll (script in `BaseLayout`), buttons lift slightly and gallery photos zoom on hover (`motion-safe:`). No carousels, parallax or bouncy animation.
 
 **Copy tone:** warm, personal, specific. "Baked by hand, in small batches" — never "Welcome to our website" or generic marketing filler.
 

@@ -90,6 +90,7 @@ const testimonials = [
 	     so they shouldn't wait for lazy loading. -->
 	<div class="mx-auto grid max-w-content gap-4.5 px-5 pb-9 sm:grid-cols-7 lg:px-14 lg:pb-14">
 		<Photo
+			arch
 			{...photos.cupcakes.strawberryBoard}
 			eager
 			sizes="(min-width: 640px) 43vw, 100vw"
@@ -98,15 +99,15 @@ const testimonials = [
 		<!-- Wrappers do the hiding: putting "hidden" on Photo itself would fight
 		     with the display it already has -->
 		<div class="hidden sm:col-span-2 sm:block">
-			<Photo {...photos.wedding.dAndTMonogram} eager sizes="29vw" class="h-64 lg:h-80" />
+			<Photo {...photos.wedding.dAndTMonogram} arch eager sizes="29vw" class="h-64 lg:h-80" />
 		</div>
 		<div class="hidden sm:col-span-2 sm:block">
-			<Photo {...photos.birthday.navyGoldMyKing} eager sizes="29vw" class="h-64 lg:h-80" />
+			<Photo {...photos.birthday.navyGoldMyKing} arch eager sizes="29vw" class="h-64 lg:h-80" />
 		</div>
 	</div>
 
 	<!-- TWO PATHS -->
-	<section class="bg-pink-tint">
+	<section class="scallop-top scallop-bottom bg-pink-tint">
 		<div class="mx-auto flex max-w-content flex-col gap-7 px-5 py-8 lg:px-14 lg:py-14">
 			<div class="text-center">
 				<h2 class="mb-2 text-2xl">Two ways to order</h2>
@@ -160,10 +161,11 @@ const testimonials = [
 	</section>
 
 	<!-- ABOUT: the authenticity section; it should sound like her, not like marketing -->
-	<section id="about" class="bg-sand">
+	<section id="about" class="scallop-top scallop-bottom bg-sand">
 		<div class="mx-auto grid max-w-content items-center gap-8 px-5 py-10 md:grid-cols-2 lg:gap-12 lg:px-14 lg:py-15">
-			<!-- object-top keeps her face in frame when the box crops the photo -->
-			<Photo {...photos.about.abimbolaPortrait} class="h-96 object-top lg:h-120" />
+			<!-- Arched, and narrower than its column so the arch reads as a tall window;
+			     object-top keeps her face in frame when the box crops the photo -->
+			<Photo {...photos.about.abimbolaPortrait} arch class="mx-auto h-96 max-w-sm object-top lg:h-120" />
 			<div class="flex flex-col gap-4">
 				<!-- ink, not rose: rose on sand is only ~4.2:1 -->
 				<p class="text-sm font-semibold tracking-widest text-ink-soft uppercase">The person behind it</p>
@@ -173,6 +175,16 @@ const testimonials = [
 					I tasted cake for the very first time as a young girl in Nigeria, and I couldn't stop wondering how something
 					could taste so good. That moment lit a fire in me — and it's why I bake: so that whoever tastes my cake has an
 					experience that leaves a lasting impression.
+				</p>
+				<!-- Signed off in a handwritten script, with the pink heart from her logo.
+				     The heart is decorative, so screen readers skip it. -->
+				<p class="flex items-center gap-2 font-script text-3xl text-rose">
+					Abimbola
+					<svg aria-hidden="true" viewBox="0 0 24 24" class="size-5 fill-pink">
+						<path
+							d="M12 21s-7.4-4.6-9.5-9.1C.9 8.4 3 5 6.4 5c2 0 3.6 1.1 4.6 2.6C12 6.1 13.6 5 15.6 5c3.4 0 5.5 3.4 3.9 6.9C17.4 16.4 12 21 12 21z"
+						></path>
+					</svg>
 				</p>
 				<a
 					href="/about"
