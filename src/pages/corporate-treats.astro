@@ -1,0 +1,144 @@
+---
+// Frontmatter: runs at build time only. Nothing here reaches the browser.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/Button.astro";
+import PageHeader from "../components/PageHeader.astro";
+import Photo from "../components/Photo.astro";
+import QuoteForm from "../components/QuoteForm.astro";
+import { whatsappLink } from "../site";
+
+// "What we make" grid. Prices are placeholders until the client supplies them.
+const products = [
+	{
+		name: "Branded cupcakes",
+		description: "Your logo, edible and hand-finished. From [YOUR PRICE] per dozen.",
+		allergens: "[Contains: allergens]",
+	},
+	{
+		name: "Logo cookies",
+		description: "Iced by hand in your brand colours. From [YOUR PRICE] per dozen.",
+		allergens: "[Contains: allergens]",
+	},
+	{
+		name: "Brownies & blondies",
+		description: "Individually wrapped, ideal for posting. From [YOUR PRICE] per box.",
+		allergens: "[Contains: allergens]",
+	},
+	{
+		name: "Corporate treat boxes",
+		description: "A mixed selection, branded and ready to gift. From [YOUR PRICE].",
+		allergens: "[Contains: allergens]",
+	},
+	{
+		name: "Event & conference catering",
+		description: "Dessert tables and grazing spreads for any headcount. Quoted per event.",
+		allergens: "[Contains: allergens]",
+	},
+	{
+		name: "Seasonal gifting",
+		description: "Christmas, Easter and year-end hampers. Book early — slots fill fast.",
+		allergens: "[Contains: allergens]",
+	},
+];
+
+// "Why companies order from us"
+const reasons = [
+	{
+		title: "Your branding, done properly",
+		text: "We work from your brand guidelines — logo, colours, packaging — so it arrives looking like you sent it.",
+	},
+	{
+		title: "Built for bulk",
+		text: "From a dozen to several hundred. Tell us the headcount and we'll tell you what's possible.",
+	},
+	{
+		title: "Invoiced properly",
+		text: "Formal quotes, VAT receipts and invoices with your PO reference, payable by bank transfer or card.",
+	},
+	{
+		title: "Delivered on the day",
+		text: "Delivery across [area], or collection. We'll confirm timings when you book.",
+	},
+];
+---
+
+<BaseLayout
+	title="Corporate Treats · [Business Name]"
+	description="Branded cupcakes, logo cookies, treat boxes and event catering for businesses — handmade and quoted to your order."
+>
+	<PageHeader
+		eyebrow="For businesses"
+		title="Beautifully branded treats, made to represent you"
+		intro="Client thank-yous, staff appreciation, conferences, product launches and seasonal gifting — handmade, carefully packaged, and finished with your branding."
+	>
+		<div class="mt-2">
+			<Button href="#quote">Request a quote</Button>
+		</div>
+		<Photo slot="aside" alt="Branded gift box spread" class="h-60 lg:h-75" />
+	</PageHeader>
+
+	<!-- WHAT WE MAKE: 1 column on phones, 2 on tablets, 3 on desktop -->
+	<section class="mx-auto flex max-w-content flex-col gap-6 px-5 pt-5 pb-14 lg:px-14">
+		<h2 class="text-2xl">What we make</h2>
+		<ul class="grid gap-x-5.5 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+			{
+				products.map((product, i) => (
+					<li class="flex flex-col gap-2.5">
+						<Photo alt={product.name} tone={i % 2 === 0 ? "pink" : "sand"} class="h-45" />
+						<h3 class="text-xl">{product.name}</h3>
+						<p class="text-sm text-ink-soft">{product.description}</p>
+						<p class="text-xs text-ink-soft">{product.allergens}</p>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+
+	<!-- WHY US -->
+	<section class="bg-pink-tint">
+		<div class="mx-auto flex max-w-content flex-col gap-7 px-5 py-13 lg:px-14">
+			<h2 class="text-2xl">Why companies order from us</h2>
+			<ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+				{
+					reasons.map((reason) => (
+						<li class="flex flex-col gap-2">
+							<h3 class="text-xl">{reason.title}</h3>
+							<p class="text-sm leading-loose text-ink-soft">{reason.text}</p>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<!-- LEAD TIME -->
+	<p class="border-b border-border px-5 py-9 text-center font-display text-lg text-rose italic">
+		Please allow at least [X] days' notice for corporate orders — larger events, two to three weeks.
+	</p>
+
+	<!-- QUOTE: the nav's "Get a Quote" button links here via #quote.
+	     5-column grid on desktop: intro takes 2 columns, the form 3. -->
+	<section id="quote" class="mx-auto grid max-w-content gap-10 px-5 pt-13 pb-15 lg:grid-cols-5 lg:gap-12 lg:px-14">
+		<div class="flex flex-col gap-3.5 lg:col-span-2">
+			<h2 class="text-2xl">Request a quote</h2>
+			<p class="text-sm leading-loose text-ink-soft">
+				Tell us roughly what you need and when, and we'll come back to you within one working day with a price.
+			</p>
+			<p class="text-sm leading-loose text-ink-soft">
+				Prefer to talk it through?{" "}
+				<a
+					href={whatsappLink("Hi, I'd like to ask about a corporate order.")}
+					class="text-rose underline underline-offset-4">Message us on WhatsApp</a
+				> or email [email address].
+			</p>
+			<p class="mt-2 rounded-sm bg-sand p-4.5 text-xs leading-loose text-ink-soft">
+				Working to a tight deadline or a specific budget? Say so in the form — we'd rather tell you honestly what's
+				possible than quote something that doesn't work.
+			</p>
+		</div>
+
+		<div class="lg:col-span-3">
+			<QuoteForm />
+		</div>
+	</section>
+</BaseLayout>

@@ -1,0 +1,124 @@
+---
+// Frontmatter: runs at build time only. Nothing here reaches the browser.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/Button.astro";
+import Photo from "../components/Photo.astro";
+
+// Placeholder products: replace with the client's real fixed-price list.
+// paymentLink: the product's Stripe Payment Link (https://buy.stripe.com/…),
+// created in her Stripe dashboard. No cart, no checkout code (see CLAUDE.md).
+// Leave it "" until the link exists: the button then says "Enquire to order"
+// and goes to /enquire instead, so the page still works without it.
+const products = [
+	{
+		name: "[Product name]",
+		description: "[Short description — what's in it, how many, how it's packaged.]",
+		allergens: "[Contains: allergens]",
+		price: "[YOUR PRICE]",
+		paymentLink: "", // TODO: Stripe Payment Link
+	},
+	{
+		name: "[Product name]",
+		description: "[Short description — what's in it, how many, how it's packaged.]",
+		allergens: "[Contains: allergens]",
+		price: "[YOUR PRICE]",
+		paymentLink: "", // TODO: Stripe Payment Link
+	},
+	{
+		name: "[Product name]",
+		description: "[Short description — what's in it, how many, how it's packaged.]",
+		allergens: "[Contains: allergens]",
+		price: "[YOUR PRICE]",
+		paymentLink: "", // TODO: Stripe Payment Link
+	},
+	{
+		name: "[Product name]",
+		description: "[Short description — what's in it, how many, how it's packaged.]",
+		allergens: "[Contains: allergens]",
+		price: "[YOUR PRICE]",
+		paymentLink: "", // TODO: Stripe Payment Link
+	},
+	{
+		name: "[Product name]",
+		description: "[Short description — what's in it, how many, how it's packaged.]",
+		allergens: "[Contains: allergens]",
+		price: "[YOUR PRICE]",
+		paymentLink: "", // TODO: Stripe Payment Link
+	},
+];
+---
+
+<BaseLayout title="Shop · [Business Name]">
+	<!-- HEADER -->
+	<section class="mx-auto flex max-w-content flex-col items-center gap-3.5 px-5 pt-10 pb-8 text-center lg:px-14 lg:pt-13">
+		<p class="text-sm font-semibold tracking-widest text-rose uppercase">Ready to order</p>
+		<h1 class="max-w-175 text-2xl lg:text-3xl">Treats you can order right now</h1>
+		<p class="max-w-150 text-lg leading-loose text-ink-soft">
+			Our ready-made boxes — baked fresh, beautifully packaged, and posted or delivered. No quote needed, just pick a
+			date at checkout.
+		</p>
+	</section>
+
+	<div class="mx-auto max-w-content px-5 lg:px-14">
+		<!-- LEAD TIME BAND -->
+		<p class="mb-10 rounded-sm bg-sand p-4 text-center text-sm text-ink-soft">
+			Please allow at least <strong class="text-ink">[X] days</strong> between ordering and your delivery date — you'll
+			choose your date at checkout.
+		</p>
+
+		<!-- PRODUCT GRID: 1 column on phones, 2 on tablets, 3 on desktop -->
+		<ul class="grid gap-6 pb-12 sm:grid-cols-2 lg:grid-cols-3">
+			{
+				products.map((product, i) => (
+					<li class="flex flex-col gap-3 rounded-md border border-nude p-4.5">
+						<Photo alt={product.name} tone={i % 2 === 0 ? "pink" : "sand"} class="h-47.5" />
+						<h2 class="text-xl">{product.name}</h2>
+						<p class="grow text-sm text-ink-soft">{product.description}</p>
+						<!-- Legal: every product shows its allergens before purchase -->
+						<p class="text-xs text-ink-soft">{product.allergens}</p>
+						<div class="mt-1 flex items-center justify-between gap-4">
+							<p class="font-display text-xl">{product.price}</p>
+							<Button href={product.paymentLink || "/enquire"}>
+								{product.paymentLink ? "Order now" : "Enquire to order"}
+								<span class="sr-only"> — {product.name}</span>
+							</Button>
+						</div>
+					</li>
+				))
+			}
+			<li class="flex flex-col items-center justify-center gap-3 rounded-md border border-dashed border-nude bg-pink-tint p-4.5 text-center">
+				<h2 class="text-xl">Looking for something else?</h2>
+				<p class="text-sm text-ink-soft">If it's not here, we can probably still make it — just ask.</p>
+				<Button href="/enquire" variant="outline" class="mt-1">Send an enquiry</Button>
+			</li>
+		</ul>
+	</div>
+
+	<!-- DELIVERY + ALLERGENS -->
+	<section class="bg-sand">
+		<div class="mx-auto grid max-w-content gap-8 px-5 py-10 lg:grid-cols-3 lg:gap-12 lg:px-14">
+			<div class="flex flex-col gap-2.5">
+				<h2 class="text-xl">Delivery &amp; collection</h2>
+				<p class="text-sm leading-loose text-ink-soft">
+					[Postage / local delivery area / collection details, and any charges. To be confirmed with the client.]
+				</p>
+			</div>
+			<div class="flex flex-col gap-2.5">
+				<h2 class="text-xl">Allergens</h2>
+				<p class="text-sm leading-loose text-ink-soft">
+					All our bakes are made in a kitchen that handles [allergen list]. Full ingredient details are on our{" "}
+					<a href="/allergens" class="text-rose underline underline-offset-4">allergen information</a> page — and you can
+					tell us about any allergies at checkout.
+				</p>
+			</div>
+			<div class="flex flex-col gap-2.5">
+				<h2 class="text-xl">Ordering more than one?</h2>
+				<p class="text-sm leading-loose text-ink-soft">
+					Each box is ordered separately — or <a href="/enquire" class="text-rose underline underline-offset-4"
+						>message us</a
+					> and we'll put a mixed order together and send you a single invoice.
+				</p>
+			</div>
+		</div>
+	</section>
+</BaseLayout>

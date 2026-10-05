@@ -1,0 +1,123 @@
+---
+// Corporate quote form (spec: "Quote form — build spec" in AGENTS.md).
+// Posts straight to Web3Forms, which emails the owner. No backend, no Stripe.
+import FormField from "./FormField.astro";
+import { WEB3FORMS_ACCESS_KEY } from "../site";
+
+const products = [
+	"Branded cupcakes",
+	"Logo cookies",
+	"Brownies & blondies",
+	"Corporate treat boxes",
+	"Branded gift boxes",
+	"Event catering",
+	"Something else",
+];
+---
+
+<!-- 2 columns from sm: up; full-width fields use sm:col-span-2 -->
+<form
+	action="https://api.web3forms.com/submit"
+	method="POST"
+	data-validate
+	class="grid gap-x-4 gap-y-4.5 rounded-md bg-pink-tint p-6 sm:grid-cols-2 lg:p-8"
+>
+	<!-- Read by Web3Forms, not shown to the visitor -->
+	<input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
+	<input type="hidden" name="subject" value="New corporate quote request" />
+	<input type="hidden" name="from_name" value="[Business Name] website" />
+	<!-- Spam trap: hidden from people, but bots tick it and get rejected -->
+	<input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" />
+
+	<p class="text-xs text-ink-soft sm:col-span-2">Fields marked * are required.</p>
+
+	<FormField id="q-name" name="name" label="Your name" required autocomplete="name" error="Please enter your name." />
+	<FormField
+		id="q-company"
+		name="Company"
+		label="Company name"
+		required
+		autocomplete="organization"
+		error="Please enter your company name."
+	/>
+	<FormField
+		id="q-email"
+		name="email"
+		label="Email"
+		type="email"
+		required
+		autocomplete="email"
+		error="Please enter your email address."
+	/>
+	<FormField id="q-phone" name="Phone" label="Phone" type="tel" autocomplete="tel" />
+	<FormField
+		id="q-type"
+		name="Interested in"
+		label="What are you interested in?"
+		type="select"
+		options={products}
+		required
+		error="Please choose what you're interested in."
+		class="sm:col-span-2"
+	/>
+	<FormField
+		id="q-qty"
+		name="Approximate quantity"
+		label="Approximate quantity"
+		type="number"
+		required
+		error="Please give a rough quantity."
+	/>
+	<FormField
+		id="q-date"
+		name="Date needed"
+		label="Date needed"
+		type="date"
+		required
+		error="Please choose the date you need them."
+	/>
+	<FormField
+		id="q-branding"
+		name="Branding requirements"
+		label="Branding requirements"
+		type="textarea"
+		class="sm:col-span-2"
+	/>
+	<FormField id="q-occasion" name="Occasion" label="What's the occasion?" type="textarea" class="sm:col-span-2" />
+	<FormField id="q-budget" name="Budget range" label="Budget range" />
+	<FormField id="q-delivery" name="Delivery postcode or collection" label="Delivery postcode, or collection" />
+	<FormField id="q-other" name="Anything else" label="Anything else" type="textarea" class="sm:col-span-2" />
+
+	<!-- Consent: must start unticked (pre-ticked isn't consent under UK GDPR) -->
+	<div class="sm:col-span-2">
+		<div class="flex items-start gap-2.5">
+			<input
+				id="q-consent"
+				name="Consent to be contacted"
+				type="checkbox"
+				value="Yes"
+				required
+				aria-describedby="q-consent-error"
+				data-error="Please tick this box so we can reply to you."
+				class="mt-0.5 size-5 shrink-0 accent-ink"
+			/>
+			<label for="q-consent" class="text-xs leading-normal text-ink-soft">
+				I'm happy to be contacted about this enquiry. See our{" "}
+				<a href="/privacy" class="text-ink underline underline-offset-2">privacy notice</a>.
+			</label>
+		</div>
+		<p id="q-consent-error" class="mt-1 text-sm font-semibold empty:hidden"></p>
+	</div>
+
+	<button
+		type="submit"
+		class="mt-1.5 min-h-12 rounded-sm bg-ink px-6 text-sm font-semibold text-ground sm:col-span-2"
+	>
+		Send enquiry
+	</button>
+</form>
+
+<script>
+	// Astro bundles this import and ships it to the browser
+	import "../scripts/form-validation";
+</script>

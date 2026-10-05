@@ -1,0 +1,101 @@
+---
+// Frontmatter: runs at build time only. Nothing here reaches the browser.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/Button.astro";
+import CtaBand from "../components/CtaBand.astro";
+import Gallery from "../components/Gallery.astro";
+import PageHeader from "../components/PageHeader.astro";
+import Photo from "../components/Photo.astro";
+import ProcessSteps from "../components/ProcessSteps.astro";
+import { whatsappLink } from "../site";
+
+const categories = [
+	"Wedding cakes",
+	"Birthday cakes",
+	"Baby showers",
+	"Engagements",
+	"Anniversaries",
+	"Milestones & themed",
+];
+
+// "Cakes we've made". Replace each alt with a description of the real photo
+// (e.g. "Two-tier white wedding cake with pressed flowers") when it's added.
+const galleryPhotos = Array.from({ length: 8 }, () => ({ alt: "[Describe the cake]" }));
+
+const steps = [
+	{
+		title: "Tell us about the day",
+		text: "The occasion, the date, how many people, and any ideas you already have.",
+	},
+	{
+		title: "We design it with you",
+		text: "Flavours, tiers, colours and finish — we'll sketch it out and quote you a price.",
+	},
+	{
+		title: "Secure your date",
+		text: "A 50% deposit books your slot. The balance is due before delivery.",
+	},
+	{
+		title: "Baked fresh, delivered",
+		text: "Made in the days before your event and delivered set up, ready to go.",
+	},
+];
+---
+
+<BaseLayout
+	title="Custom Cakes · [Business Name]"
+	description="Bespoke celebration cakes for weddings, birthdays, baby showers and every milestone — designed around you and baked by hand."
+>
+	<PageHeader
+		eyebrow="Bespoke celebration cakes"
+		title="A cake made for your day, and nobody else's"
+		intro="Every cake is designed from scratch around your occasion — your flavours, your colours, your details. Nothing here is off a shelf."
+	>
+		<!-- AGENTS.md: this page must show a "from" price -->
+		<p class="font-display text-xl text-rose italic">Cakes from [YOUR PRICE]</p>
+	</PageHeader>
+
+	<!-- CATEGORIES: 2 columns on phones, 3 on desktop -->
+	<section class="mx-auto max-w-content px-5 pb-13 lg:px-14" aria-label="Cake categories">
+		<ul class="grid grid-cols-2 gap-x-5 gap-y-6 lg:grid-cols-3">
+			{
+				categories.map((category, i) => (
+					<li class="flex flex-col gap-3">
+						<Photo alt={category} tone={i % 2 === 0 ? "pink" : "sand"} class="h-32 lg:h-50" />
+						<h2 class="text-xl">{category}</h2>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+
+	<!-- GALLERY: the most important element on this page -->
+	<section class="bg-sand">
+		<div class="mx-auto flex max-w-content flex-col gap-6 px-5 py-14 lg:px-14">
+			<div class="text-center">
+				<h2 class="mb-2 text-2xl">Cakes we've made</h2>
+				<p class="text-ink-soft">Most people choose a cake maker by their previous work — so here's ours.</p>
+			</div>
+			<Gallery photos={galleryPhotos} tones={["ground", "pink"]} />
+		</div>
+	</section>
+
+	<!-- PROCESS -->
+	<section class="mx-auto flex max-w-content flex-col gap-8 px-5 py-15 lg:px-14">
+		<h2 class="text-center text-2xl">How a bespoke cake comes together</h2>
+		<ProcessSteps steps={steps} />
+		<p class="text-center font-display text-lg text-rose italic">
+			Wedding cakes are usually booked [X] months ahead — celebration cakes need at least [X] days.
+		</p>
+	</section>
+
+	<CtaBand
+		title="Let's talk about your cake"
+		text="Send over your date and a rough idea — even a photo you've saved somewhere. We'll take it from there."
+	>
+		<Button href="/enquire">Start an enquiry</Button>
+		<Button href={whatsappLink("Hi, I'd like to ask about a custom cake.")} variant="outline">
+			Message on WhatsApp
+		</Button>
+	</CtaBand>
+</BaseLayout>

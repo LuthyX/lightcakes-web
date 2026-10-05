@@ -1,0 +1,103 @@
+---
+// General enquiry form for /enquire (AGENTS.md: "The Enquire page carries a
+// shorter general form"). Same building blocks as QuoteForm: posts straight to
+// Web3Forms, which emails the owner.
+import FormField from "./FormField.astro";
+import { WEB3FORMS_ACCESS_KEY } from "../site";
+
+const topics = ["A custom cake", "Corporate treats or gifting", "Event catering", "Something else"];
+---
+
+<form
+	action="https://api.web3forms.com/submit"
+	method="POST"
+	data-validate
+	class="grid gap-x-4 gap-y-4.5 rounded-md bg-pink-tint p-6 sm:grid-cols-2 lg:p-8"
+>
+	<input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
+	<input type="hidden" name="subject" value="New website enquiry" />
+	<input type="hidden" name="from_name" value="[Business Name] website" />
+	<input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" />
+
+	<h2 class="text-2xl sm:col-span-2">Send an enquiry</h2>
+	<p class="-mt-2 text-xs text-ink-soft sm:col-span-2">Fields marked * are required.</p>
+
+	<FormField id="e-name" name="name" label="Your name" required autocomplete="name" error="Please enter your name." />
+	<FormField
+		id="e-email"
+		name="email"
+		label="Email"
+		type="email"
+		required
+		autocomplete="email"
+		error="Please enter your email address."
+	/>
+	<FormField id="e-phone" name="Phone" label="Phone" type="tel" autocomplete="tel" />
+	<FormField
+		id="e-date"
+		name="Date needed"
+		label="Date needed"
+		type="date"
+		required
+		error="Please choose the date you need it."
+	/>
+	<FormField
+		id="e-type"
+		name="About"
+		label="What's this about?"
+		type="select"
+		options={topics}
+		required
+		error="Please choose what your enquiry is about."
+		class="sm:col-span-2"
+	/>
+	<FormField
+		id="e-detail"
+		name="Details"
+		label="Tell us more"
+		type="textarea"
+		rows={5}
+		hint="The occasion, rough numbers, any ideas you already have."
+		required
+		error="Please tell us a little about what you need."
+		class="sm:col-span-2"
+	/>
+	<FormField
+		id="e-allergy"
+		name="Allergies or dietary requirements"
+		label="Any allergies or dietary requirements?"
+		class="sm:col-span-2"
+	/>
+
+	<!-- Consent: must start unticked (pre-ticked isn't consent under UK GDPR) -->
+	<div class="sm:col-span-2">
+		<div class="flex items-start gap-2.5">
+			<input
+				id="e-consent"
+				name="Consent to be contacted"
+				type="checkbox"
+				value="Yes"
+				required
+				aria-describedby="e-consent-error"
+				data-error="Please tick this box so we can reply to you."
+				class="mt-0.5 size-5 shrink-0 accent-ink"
+			/>
+			<label for="e-consent" class="text-xs leading-normal text-ink-soft">
+				I'm happy to be contacted about this enquiry. See our{" "}
+				<a href="/privacy" class="text-ink underline underline-offset-2">privacy notice</a>.
+			</label>
+		</div>
+		<p id="e-consent-error" class="mt-1 text-sm font-semibold empty:hidden"></p>
+	</div>
+
+	<button
+		type="submit"
+		class="mt-1.5 min-h-12 rounded-sm bg-ink px-6 text-sm font-semibold text-ground sm:col-span-2"
+	>
+		Send enquiry
+	</button>
+</form>
+
+<script>
+	import "../scripts/form-validation";
+</script>

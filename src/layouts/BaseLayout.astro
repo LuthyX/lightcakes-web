@@ -1,0 +1,174 @@
+---
+// Frontmatter: runs at build time only. Nothing here reaches the browser.
+import "../styles/global.css";
+import { PHONE_DISPLAY, whatsappLink } from "../site";
+
+// Props are this component's "constructor arguments". Pages pass them as
+// attributes: <BaseLayout title="...">. The interface is optional, but it
+// gives you type-checking / autocomplete in the editor.
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const {
+	title = "Light Cakes",
+	description = "Bespoke cakes & beautifully branded treats for businesses and celebrations.",
+} = Astro.props;
+
+const navLinks = [
+	{ href: "/", label: "Home" },
+	{ href: "/corporate-treats", label: "Corporate Treats" },
+	{ href: "/custom-cakes", label: "Custom Cakes" },
+	{ href: "/shop", label: "Shop" },
+	{ href: "/enquire", label: "Enquire" },
+];
+
+// Current URL path, e.g. "/custom-cakes" or "/custom-cakes/" — used to mark
+// the active nav link. Strip a trailing slash so both forms match.
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="en-GB">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+
+		<!-- Google Fonts: the two preconnects open connections early so the fonts arrive sooner -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Karla:wght@400;500;600&display=swap"
+			rel="stylesheet"
+		/>
+	</head>
+	<!-- Column flexbox + min-h-screen + flex-1 on <main>: main stretches to fill
+	     spare height, so the footer sits at the bottom even on short pages -->
+	<body class="flex min-h-screen flex-col">
+		<header class="border-b border-border">
+			<!-- "group" lets children react to this element's state: group-data-[open]:flex
+			     means "display:flex when the <nav> has a data-open attribute" -->
+			<nav
+				aria-label="Main"
+				class="group mx-auto flex max-w-content flex-wrap items-center justify-between px-5 py-4 lg:px-14 lg:py-6"
+			>
+				<a href="/" class="flex min-h-11 items-center font-display text-xl font-semibold">[Business Name]</a>
+
+				<!-- Phones and tablets only (lg:hidden). Icon-only, so it needs aria-label.
+				     aria-expanded tells screen readers whether the menu is open or closed. -->
+				<button
+					type="button"
+					id="menu-toggle"
+					aria-label="Menu"
+					aria-expanded="false"
+					aria-controls="main-menu"
+					class="flex size-11 flex-col items-center justify-center gap-1.25 lg:hidden"
+				>
+					<span class="block h-0.5 w-5.5 bg-ink"></span>
+					<span class="block h-0.5 w-5.5 bg-ink"></span>
+					<span class="block h-0.5 w-5.5 bg-ink"></span>
+				</button>
+
+				<ul
+					id="main-menu"
+					class="hidden w-full flex-col gap-1 pt-3 group-data-[open]:flex lg:flex lg:w-auto lg:flex-row lg:items-center lg:gap-7.5 lg:pt-0"
+				>
+					{
+						navLinks.map((link) => (
+							<li>
+								<a
+									href={link.href}
+									aria-current={currentPath === link.href ? "page" : undefined}
+									class="flex min-h-11 items-center text-sm font-medium text-ink-soft decoration-pink decoration-2 underline-offset-6 hover:text-ink aria-[current=page]:font-semibold aria-[current=page]:text-ink aria-[current=page]:underline"
+								>
+									{link.label}
+								</a>
+							</li>
+						))
+					}
+					<li>
+						<!-- The quote form lives on /corporate-treats (see CLAUDE.md) -->
+						<a
+							href="/corporate-treats#quote"
+							class="inline-flex min-h-11 items-center rounded-sm bg-pink px-5 text-sm font-semibold text-ink"
+						>
+							Get a Quote
+						</a>
+					</li>
+				</ul>
+			</nav>
+		</header>
+
+		<main class="flex-1">
+			<!-- Whatever the page puts between <BaseLayout>...</BaseLayout> is inserted here -->
+			<slot />
+		</main>
+
+		<!-- Muted text uses the ground (ivory) token at reduced opacity: text-ground/80
+		     means "ivory at 80%", which reads as a soft beige on the dark background -->
+		<footer class="bg-ink text-ground">
+			<div class="mx-auto flex max-w-content flex-col gap-6 px-5 pt-8 pb-5 lg:gap-8 lg:px-14 lg:pt-12 lg:pb-7">
+				<!-- Stacked on phones, three columns side by side from lg: up -->
+				<div class="flex flex-col gap-6 lg:flex-row lg:justify-between lg:gap-12">
+					<div class="flex max-w-75 flex-col gap-3">
+						<p class="font-display text-xl">[Business Name]</p>
+						<p class="text-sm leading-loose text-ground/80">
+							Bespoke cakes and beautifully branded treats, made by hand for celebrations and businesses.
+						</p>
+					</div>
+
+					<nav aria-label="Footer" class="text-sm text-ground/80">
+						<p class="mb-1 text-xs font-semibold tracking-wider text-ground uppercase">Explore</p>
+						<ul>
+							{
+								navLinks.slice(1).map((link) => (
+									<li>
+										<a href={link.href} class="flex min-h-11 items-center hover:text-ground">
+											{link.label}
+										</a>
+									</li>
+								))
+							}
+						</ul>
+					</nav>
+
+					<div class="text-sm leading-loose text-ground/80">
+						<p class="mb-1 text-xs font-semibold tracking-wider text-ground uppercase">Get in touch</p>
+						<p>[email address]</p>
+						<a href={whatsappLink("Hi!")} class="flex min-h-11 items-center hover:text-ground">
+							WhatsApp {PHONE_DISPLAY}
+						</a>
+						<p>[City, UK]</p>
+						<!-- TODO: replace # with the real Instagram profile URL -->
+						<a href="#" class="flex min-h-11 items-center hover:text-ground">Instagram</a>
+					</div>
+				</div>
+
+				<div class="flex flex-col gap-1 border-t border-ground/15 pt-3 text-xs text-ground/70 lg:flex-row lg:items-center lg:justify-between">
+					<p>&copy; {year} [Business Name]</p>
+					<div class="flex gap-5">
+						<a href="/privacy" class="flex min-h-11 items-center hover:text-ground">Privacy notice</a>
+						<a href="/allergens" class="flex min-h-11 items-center hover:text-ground">Allergen information</a>
+					</div>
+				</div>
+			</div>
+		</footer>
+
+		<script>
+			// Astro bundles this and ships it to the browser (unlike the frontmatter).
+			const nav = document.querySelector("nav[aria-label='Main']")!;
+			const toggle = document.getElementById("menu-toggle")!;
+
+			toggle.addEventListener("click", () => {
+				const open = nav.toggleAttribute("data-open");
+				toggle.setAttribute("aria-expanded", String(open));
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------
+   Design tokens — the single source of truth for the site's look.
+   Each variable in @theme becomes a Tailwind utility:
+     --color-ink       → text-ink, bg-ink, border-ink
+     --font-display    → font-display
+     --text-hero       → text-hero
+     --container-content → max-w-content
+   --------------------------------------------------------------- */
+
+@theme {
+  /* Wipe Tailwind's default palette (red-500, slate-200…) so only
+     brand colours exist. Using an off-brand colour then fails loudly
+     instead of quietly shipping. */
+  --color-*: initial;
+
+  /* --- Colour -------------------------------------------------- */
+  --color-ground: #fbf6ef; /* Ivory page background */
+  --color-ink: #3e2c22; /* Body text, headings, primary buttons */
+  --color-ink-soft: #55483c; /* Secondary text, nav links, captions */
+  --color-pink: #f4c9ce; /* Accent FILLS only. Never text on light. */
+  --color-pink-tint: #f6dee1; /* Soft section backgrounds */
+  --color-sand: #f1e4d9; /* Warm neutral section/card backgrounds */
+  --color-nude: #c9a183; /* Borders, dividers, warm neutral blocks */
+  --color-rose: #9c5a5e; /* Accent text (italic handwritten-feel lines) */
+  --color-border: rgb(62 44 34 / 0.14); /* Hairlines — warm, not grey */
+
+  /* --- Typography ---------------------------------------------- */
+  --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-body: "Karla", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --text-xs: 0.8125rem; /* 13px — captions      */
+  --text-sm: 0.9375rem; /* 15px — nav, labels   */
+  --text-base: 1rem; /*    16px — body          */
+  --text-lg: 1.1875rem; /* 19px — lead paras    */
+  --text-xl: 1.5rem; /*    24px — subheadings   */
+  --text-2xl: 2rem; /*     32px — section heads */
+  --text-3xl: 2.75rem; /*  44px — page titles   */
+  --text-hero: 3.75rem; /* 60px — homepage hero */
+
+  --leading-tight: 1.15;
+  --leading-normal: 1.5;
+  --leading-loose: 1.65;
+
+  /* --- Layout --------------------------------------------------- */
+  --container-content: 1200px;
+
+  --radius-sm: 3px;
+  --radius-md: 6px;
+
+  /* Spacing: Tailwind's default scale is already 4px steps
+     (p-1 = 4px, p-4 = 16px, p-20 = 80px), identical to the old
+     --space-* tokens, so it isn't redefined here. */
+}
+
+/* Base element styles. Tailwind's reset (Preflight) already handles
+   box-sizing, margins and img display. */
+@layer base {
+  body {
+    @apply bg-ground text-ink font-body text-base leading-normal antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display font-medium leading-tight;
+  }
+
+  /* Keyboard focus ring for everything interactive. :focus-visible only
+     fires for keyboard navigation (and text fields), so mouse clicks on
+     buttons don't flash an outline. */
+  :where(a, button, input, select, textarea):focus-visible {
+    @apply outline-2 outline-offset-2 outline-rose;
+  }
+
+  /* Rose on the dark footer is too faint (about 2.5:1), so use ivory there */
+  footer :focus-visible {
+    @apply outline-ground;
+  }
+}

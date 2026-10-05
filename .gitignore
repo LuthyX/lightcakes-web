@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# design mockups (reference only, not part of the site)
+docs/design/

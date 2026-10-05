@@ -1,0 +1,92 @@
+---
+// One labelled form field plus the space for its error message.
+// Used by both the quote form and the enquiry form.
+//   <FormField id="q-email" name="email" label="Email" type="email" required
+//              error="Please enter your email address." />
+interface Props {
+	id: string;
+	// The field name shown in the email the owner receives
+	name: string;
+	label: string;
+	type?: "text" | "email" | "tel" | "number" | "date" | "textarea" | "select";
+	required?: boolean;
+	// Message shown when a required field is left empty
+	error?: string;
+	// For type="select"
+	options?: string[];
+	// Lets browsers/password managers autofill, e.g. "name", "email", "tel"
+	autocomplete?: string;
+	// Helper text under the label (stays visible, unlike a placeholder)
+	hint?: string;
+	// Height of a textarea, in lines
+	rows?: number;
+	class?: string;
+}
+
+const {
+	id,
+	name,
+	label,
+	type = "text",
+	required = false,
+	error,
+	options = [],
+	autocomplete,
+	hint,
+	rows = 3,
+	class: className,
+} = Astro.props;
+
+// The error <p> has this id; aria-describedby on the field points at it, so a
+// screen reader reads the error out together with the label.
+const errorId = `${id}-error`;
+// With a hint, the field is described by both (space-separated ids)
+const hintId = `${id}-hint`;
+const describedBy = hint ? `${hintId} ${errorId}` : errorId;
+
+// Shared by input, select and textarea. The ring (a box-shadow) thickens the
+// border when invalid without changing the field's size.
+const control =
+	"w-full rounded-sm border border-ink-soft/70 bg-ground px-3 py-2.5 text-base text-ink aria-[invalid=true]:border-rose aria-[invalid=true]:ring-1 aria-[invalid=true]:ring-rose";
+---
+
+<div class={className}>
+	<label for={id} class="mb-1.5 block text-xs font-semibold">
+		{label}{required && <span aria-hidden="true"> *</span>}
+	</label>
+	{hint && <p id={hintId} class="-mt-0.5 mb-1.5 text-xs text-ink-soft">{hint}</p>}
+
+	{
+		type === "textarea" ? (
+			<textarea
+				id={id}
+				name={name}
+				rows={rows}
+				required={required}
+				aria-describedby={describedBy}
+				data-error={error}
+				class:list={[control, "resize-y"]}
+			/>
+		) : type === "select" ? (
+			<select id={id} name={name} required={required} aria-describedby={describedBy} data-error={error} class={control}>
+				<option value="">Choose one</option>
+				{options.map((option) => <option>{option}</option>)}
+			</select>
+		) : (
+			<input
+				id={id}
+				name={name}
+				type={type}
+				min={type === "number" ? 1 : undefined}
+				required={required}
+				autocomplete={autocomplete}
+				aria-describedby={describedBy}
+				data-error={error}
+				class={control}
+			/>
+		)
+	}
+
+	<!-- Filled in by form-validation.ts; hidden while empty -->
+	<p id={errorId} class="mt-1 text-sm font-semibold empty:hidden"></p>
+</div>

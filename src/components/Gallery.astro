@@ -1,0 +1,25 @@
+---
+// Grid of photos: 2 columns on phones, 4 on desktop.
+// Used on Custom Cakes ("Cakes we've made") and the homepage ("Recent work").
+//   <Gallery photos={[{ alt: "Three-tier wedding cake with fresh roses" }, …]} />
+// Add src/width/height to each photo once the real files exist.
+import Photo from "./Photo.astro";
+
+interface Props {
+	photos: { src?: string; alt: string; width?: number; height?: number }[];
+	// Placeholder backgrounds, alternated. Pick ones that contrast with the section behind.
+	tones?: ("pink" | "sand" | "ground")[];
+}
+
+const { photos, tones = ["pink", "sand"] } = Astro.props;
+---
+
+<ul class="grid grid-cols-2 gap-4 lg:grid-cols-4">
+	{
+		photos.map((photo, i) => (
+			<li>
+				<Photo {...photo} tone={tones[i % tones.length]} class="h-40 lg:h-57.5" />
+			</li>
+		))
+	}
+</ul>

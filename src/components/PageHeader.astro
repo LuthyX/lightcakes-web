@@ -1,0 +1,36 @@
+---
+// The top section of an inner page: small uppercase label, h1, intro.
+// Anything between the tags (e.g. buttons) goes under the intro.
+// Pass a photo with slot="aside" and the header becomes two columns;
+// without one it's centred.
+//   <PageHeader eyebrow="For businesses" title="…" intro="…">
+//     <Button href="#quote">Request a quote</Button>
+//     <Photo slot="aside" alt="…" class="h-75" />
+//   </PageHeader>
+interface Props {
+	// Optional: the Enquire page has no small label above its heading
+	eyebrow?: string;
+	title: string;
+	intro: string;
+}
+
+const { eyebrow, title, intro } = Astro.props;
+
+// True when the page passed something with slot="aside"
+const hasAside = Astro.slots.has("aside");
+---
+
+<section
+	class:list={[
+		"mx-auto grid max-w-content gap-10 px-5 pt-10 pb-8 lg:px-14 lg:pt-14 lg:pb-11",
+		hasAside ? "lg:grid-cols-2 lg:items-center lg:gap-12" : "justify-items-center text-center",
+	]}
+>
+	<div class:list={["flex flex-col gap-4", !hasAside && "items-center"]}>
+		{eyebrow && <p class="text-sm font-semibold tracking-widest text-rose uppercase">{eyebrow}</p>}
+		<h1 class="max-w-190 text-2xl lg:text-3xl">{title}</h1>
+		<p class="max-w-155 text-lg leading-loose text-ink-soft">{intro}</p>
+		<slot />
+	</div>
+	{hasAside && <slot name="aside" />}
+</section>

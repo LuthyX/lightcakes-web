@@ -1,0 +1,47 @@
+---
+// A photo, or a dashed placeholder box until the real photo exists.
+// To swap in a real photo, add src (and width/height of the actual file):
+//   <Photo alt="Branded cupcakes in a gift box" class="h-48" />
+//   <Photo src="/images/cupcakes.jpg" width={1200} height={900} alt="Branded cupcakes in a gift box" class="h-48" />
+interface Props {
+	src?: string;
+	alt: string;
+	width?: number;
+	height?: number;
+	// Placeholder background only
+	tone?: "pink" | "sand" | "ground";
+	// Sizing, e.g. "h-48"
+	class?: string;
+}
+
+const { src, alt, width = 1200, height = 900, tone = "pink", class: className } = Astro.props;
+
+const tones = {
+	pink: "bg-pink-tint",
+	sand: "bg-sand",
+	ground: "bg-ground",
+};
+---
+
+{
+	src ? (
+		<img
+			src={src}
+			alt={alt}
+			width={width}
+			height={height}
+			loading="lazy"
+			class:list={["w-full rounded-sm object-cover", className]}
+		/>
+	) : (
+		<div
+			class:list={[
+				"flex w-full items-center justify-center rounded-sm border border-dashed border-ink/25 p-4 text-center text-xs text-ink-soft",
+				tones[tone],
+				className,
+			]}
+		>
+			[Photo — {alt}]
+		</div>
+	)
+}

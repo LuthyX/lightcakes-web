@@ -1,0 +1,70 @@
+---
+// Frontmatter: runs at build time only. Nothing here reaches the browser.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/Button.astro";
+import EnquiryForm from "../components/EnquiryForm.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { PHONE_DISPLAY, WHATSAPP_NUMBER, whatsappLink } from "../site";
+
+// Lead times are placeholders until the client confirms them (AGENTS.md: never invent one)
+const noticeTimes = [
+	"Brownies & cookie boxes — [X] days",
+	"Cupcakes & corporate orders — [X] days",
+	"Celebration cakes — [X] weeks",
+	"Wedding cakes — [X] months",
+];
+---
+
+<BaseLayout
+	title="Enquire · [Business Name]"
+	description="Get in touch about a custom cake, corporate treats or event catering — by form, WhatsApp or email."
+>
+	<PageHeader
+		title="Get in touch"
+		intro="Tell us what you're planning and we'll come back to you within one working day. No enquiry is too small or too early."
+	/>
+
+	<!-- FORM + CONTACT: stacked on phones; side by side on desktop,
+	     form 3 parts / contact 2 parts of a 5-column grid -->
+	<div class="mx-auto grid max-w-content items-start gap-10 px-5 pb-15 lg:grid-cols-5 lg:px-14">
+		<div class="lg:col-span-3">
+			<EnquiryForm />
+		</div>
+
+		<div class="flex flex-col gap-6 lg:col-span-2">
+			<section class="flex flex-col items-start gap-3.5 rounded-md border border-nude p-7">
+				<h2 class="text-xl">Prefer to message?</h2>
+				<p class="text-sm leading-loose text-ink-soft">
+					For custom cakes especially, it's often easier to chat it through — send a message with your date and any
+					pictures you've saved.
+				</p>
+				<Button href={whatsappLink("Hi, I'd like to ask about an order.")} variant="pink">Message on WhatsApp</Button>
+			</section>
+
+			<section class="flex flex-col gap-3 px-1">
+				<h2 class="text-xl">Other ways to reach us</h2>
+				<ul class="text-sm leading-loose text-ink-soft">
+					<li>[email address]</li>
+					<li>
+						<a href={`tel:+${WHATSAPP_NUMBER}`} class="text-rose underline underline-offset-4">{PHONE_DISPLAY}</a>
+					</li>
+					<li>[City, UK] — delivery across [area]</li>
+					<li>
+						<!-- TODO: replace # with the real Instagram profile URL -->
+						<a href="#" class="text-rose underline underline-offset-4">Instagram</a>
+					</li>
+				</ul>
+			</section>
+
+			<section class="flex flex-col gap-2.5 rounded-md bg-sand p-6">
+				<h2 class="text-xl">How much notice we need</h2>
+				<ul class="text-sm leading-loose text-ink-soft">
+					{noticeTimes.map((line) => <li>{line}</li>)}
+				</ul>
+				<p class="mt-1 text-xs text-ink-soft italic">
+					Working to a shorter deadline? Ask anyway — we'll tell you honestly if we can.
+				</p>
+			</section>
+		</div>
+	</div>
+</BaseLayout>

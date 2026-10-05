@@ -1,0 +1,29 @@
+---
+// Numbered "how it works" steps. Used on Custom Cakes and the homepage.
+//   <ProcessSteps steps={[{ title: "…", text: "…" }, …]} />
+interface Props {
+	steps: { title: string; text: string }[];
+}
+
+const { steps } = Astro.props;
+---
+
+<!-- <ol> because the order matters: screen readers announce "list, 4 items"
+     and the position of each. The visible number is decorative (aria-hidden)
+     so it isn't read out twice. -->
+<ol class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+	{
+		steps.map((step, i) => (
+			<li class="flex flex-col gap-2.5">
+				<span
+					aria-hidden="true"
+					class="flex size-10 items-center justify-center rounded-full bg-pink font-semibold text-ink"
+				>
+					{i + 1}
+				</span>
+				<h3 class="text-xl">{step.title}</h3>
+				<p class="text-sm leading-loose text-ink-soft">{step.text}</p>
+			</li>
+		))
+	}
+</ol>
