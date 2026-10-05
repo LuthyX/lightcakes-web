@@ -10,11 +10,17 @@ interface Props {
 	height?: number;
 	// Placeholder background only
 	tone?: "pink" | "sand" | "ground";
+	// Arched top (rounded like a window or cake dome) instead of square corners
+	arch?: boolean;
 	// Sizing, e.g. "h-48"
 	class?: string;
 }
 
-const { src, alt, width = 1200, height = 900, tone = "pink", class: className } = Astro.props;
+const { src, alt, width = 1200, height = 900, tone = "pink", arch = false, class: className } = Astro.props;
+
+// rounded-t-full on a box makes the top corners as round as the box allows:
+// a semicircle-topped arch on narrow boxes, a soft dome on wide ones
+const corners = arch ? "rounded-t-full rounded-b-sm" : "rounded-sm";
 
 const tones = {
 	pink: "bg-pink-tint",
@@ -31,12 +37,13 @@ const tones = {
 			width={width}
 			height={height}
 			loading="lazy"
-			class:list={["w-full rounded-sm object-cover", className]}
+			class:list={["w-full object-cover", corners, className]}
 		/>
 	) : (
 		<div
 			class:list={[
-				"flex w-full items-center justify-center rounded-sm border border-dashed border-ink/25 p-4 text-center text-xs text-ink-soft",
+				"flex w-full items-center justify-center border border-dashed border-ink/25 p-4 text-center text-xs text-ink-soft",
+				corners,
 				tones[tone],
 				className,
 			]}

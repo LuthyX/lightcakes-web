@@ -47,7 +47,7 @@ const year = new Date().getFullYear();
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
-			href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Karla:wght@400;500;600&display=swap"
+			href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Karla:wght@400;500;600&family=Allura&display=swap"
 			rel="stylesheet"
 		/>
 	</head>
@@ -177,6 +177,34 @@ const year = new Date().getFullYear();
 				const open = nav.toggleAttribute("data-open");
 				toggle.setAttribute("aria-expanded", String(open));
 			});
+
+			// Scroll reveal: each top-level block in <main> fades up as it scrolls into
+			// view (styles: .reveal in global.css). Skipped for anyone whose system asks
+			// for reduced motion, and for blocks already on screen when the page loads,
+			// so the top of the page never flickers.
+			const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+			if (!reduceMotion && "IntersectionObserver" in window) {
+				// IntersectionObserver calls us when a watched element enters the viewport,
+				// instead of us checking positions on every scroll event
+				const observer = new IntersectionObserver(
+					(entries) => {
+						for (const entry of entries) {
+							if (entry.isIntersecting) {
+								entry.target.classList.add("is-visible");
+								observer.unobserve(entry.target); // animate once only
+							}
+						}
+					},
+					{ threshold: 0.1 }, // fire when 10% of the block is visible
+				);
+
+				for (const block of document.querySelectorAll("main > *")) {
+					if (block.getBoundingClientRect().top > window.innerHeight) {
+						block.classList.add("reveal");
+						observer.observe(block);
+					}
+				}
+			}
 		</script>
 	</body>
 </html>

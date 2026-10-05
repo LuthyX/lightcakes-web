@@ -77,19 +77,19 @@ const testimonials = [
 	<!-- PHOTO STRIP: one photo on phones; three from sm: up, the first wider
 	     (a 7-column grid split 3 / 2 / 2) -->
 	<div class="mx-auto grid max-w-content gap-4.5 px-5 pb-9 sm:grid-cols-7 lg:px-14 lg:pb-14">
-		<Photo alt="Custom wedding cake" class="h-55 sm:col-span-3 lg:h-52.5" />
+		<Photo alt="Custom wedding cake" arch class="h-55 sm:col-span-3 lg:h-52.5" />
 		<!-- Wrappers do the hiding: putting "hidden" on Photo itself would fight
 		     with the "flex" it already has (both set display) -->
 		<div class="hidden sm:col-span-2 sm:block">
-			<Photo alt="Branded corporate cupcakes" tone="sand" class="h-55 lg:h-52.5" />
+			<Photo alt="Branded corporate cupcakes" tone="sand" arch class="h-55 lg:h-52.5" />
 		</div>
 		<div class="hidden sm:col-span-2 sm:block">
-			<Photo alt="Hands finishing a cake" class="h-55 lg:h-52.5" />
+			<Photo alt="Hands finishing a cake" arch class="h-55 lg:h-52.5" />
 		</div>
 	</div>
 
 	<!-- TWO PATHS -->
-	<section class="bg-pink-tint">
+	<section class="scallop-top scallop-bottom bg-pink-tint">
 		<div class="mx-auto flex max-w-content flex-col gap-7 px-5 py-8 lg:px-14 lg:py-14">
 			<div class="text-center">
 				<h2 class="mb-2 text-2xl">Two ways to order</h2>
@@ -138,15 +138,26 @@ const testimonials = [
 	</section>
 
 	<!-- ABOUT: the authenticity section; it should sound like her, not like marketing -->
-	<section id="about" class="bg-sand">
+	<section id="about" class="scallop-top scallop-bottom bg-sand">
 		<div class="mx-auto grid max-w-content items-center gap-8 px-5 py-10 md:grid-cols-2 lg:gap-12 lg:px-14 lg:py-15">
-			<Photo alt="The baker at work in her kitchen" tone="ground" class="h-60 lg:h-75" />
+			<!-- Narrower and taller so the arch reads as a tall window, not a flat dome -->
+			<Photo alt="The baker at work in her kitchen" tone="ground" arch class="mx-auto h-90 max-w-sm lg:h-110" />
 			<div class="flex flex-col gap-4">
 				<p class="text-sm font-semibold tracking-widest text-rose uppercase">The person behind it</p>
 				<h2 class="text-2xl">Hello, I'm Abimbola</h2>
 				<p class="leading-loose text-ink-soft">
 					[Her story — how the business started, what she cares about, why she bakes the way she does. Two or three
 					short paragraphs in her own voice.]
+				</p>
+				<!-- Signed off in a handwritten script, with the pink heart from her logo.
+				     The heart is decorative, so screen readers skip it. -->
+				<p class="flex items-center gap-2 font-script text-3xl text-rose">
+					Abimbola
+					<svg aria-hidden="true" viewBox="0 0 24 24" class="size-5 fill-pink">
+						<path
+							d="M12 21s-7.4-4.6-9.5-9.1C.9 8.4 3 5 6.4 5c2 0 3.6 1.1 4.6 2.6C12 6.1 13.6 5 15.6 5c3.4 0 5.5 3.4 3.9 6.9C17.4 16.4 12 21 12 21z"
+						></path>
+					</svg>
 				</p>
 			</div>
 		</div>

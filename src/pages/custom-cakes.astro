@@ -61,7 +61,7 @@ const steps = [
 			{
 				categories.map((category, i) => (
 					<li class="flex flex-col gap-3">
-						<Photo alt={category} tone={i % 2 === 0 ? "pink" : "sand"} class="h-32 lg:h-50" />
+						<Photo alt={category} tone={i % 2 === 0 ? "pink" : "sand"} arch class="h-32 lg:h-50" />
 						<h2 class="text-xl">{category}</h2>
 					</li>
 				))
@@ -70,7 +70,7 @@ const steps = [
 	</section>
 
 	<!-- GALLERY: the most important element on this page -->
-	<section class="bg-sand">
+	<section class="scallop-top scallop-bottom bg-sand">
 		<div class="mx-auto flex max-w-content flex-col gap-6 px-5 py-14 lg:px-14">
 			<div class="text-center">
 				<h2 class="mb-2 text-2xl">Cakes we've made</h2>
