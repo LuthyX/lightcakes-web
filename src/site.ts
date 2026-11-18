@@ -8,6 +8,9 @@ export const PHONE_DISPLAY = "+44 7523 857318";
 
 export const INSTAGRAM_URL = "https://www.instagram.com/lightcakes_/";
 
+// Where Abimbola delivers (her list, Nov 2026)
+export const DELIVERY_AREA = "Leeds, Wakefield, Sheffield, Manchester, York, Middlesbrough, Huddersfield and Bradford";
+
 // Business email: placeholder until the domain (and its mailbox) exists.
 // Shown in the footer, enquire page, corporate quote section and privacy notice.
 export const EMAIL = "[email address]";

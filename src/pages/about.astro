@@ -1,0 +1,127 @@
+---
+// About Abimbola. The story is her own text (Light_Cakes_About_Me.docx,
+// Nov 2026), only regrouped into paragraphs. Keep it in her words: this page is
+// where the "real person who bakes by hand" comes through.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/Button.astro";
+import CtaBand from "../components/CtaBand.astro";
+import PageHeader from "../components/PageHeader.astro";
+import Photo from "../components/Photo.astro";
+import Prose from "../components/Prose.astro";
+import { photos } from "../photos";
+import { whatsappLink } from "../site";
+
+// A few bakes to show alongside her story
+const bakes = [photos.childrens.fairyGarden, photos.wedding.whiteRufflesGreenery, photos.birthday.navyGoldMyKing];
+---
+
+<BaseLayout
+	title="About · LightCakes"
+	description="Meet Abimbola, the baker behind LightCakes — bespoke cakes and branded treats, baked by hand in Leeds."
+>
+	<PageHeader
+		eyebrow="The person behind it"
+		title="Hello, I'm Abimbola"
+		intro="I'm the baker behind LightCakes. Every cake and treat is designed and baked by hand in my kitchen in Leeds."
+	>
+		<!-- object-top: when the box crops the photo, keep her face, lose the bottom -->
+		<Photo slot="aside" {...photos.about.abimbolaPortrait} eager class="h-96 object-top lg:h-140" />
+	</PageHeader>
+
+	<Prose>
+		<h2>The heart behind LightCakes</h2>
+		<p>
+			LightCakes started in my heart when I was just a young girl growing up in my home country, Nigeria. I was in JSS 1
+			at the time, and I had the opportunity to be selected as one of the representatives to represent my school at a
+			special Children's Day programme.
+		</p>
+		<p>
+			We participated in all the activities, and eventually, it was time for the cake-cutting ceremony. Coming from a
+			humble home, I had never tasted cake before, let alone a good-quality cake. So, when we were given a piece of cake,
+			I took my first bite, and honestly, I could not explain what I was tasting. It was so good! I couldn't quite place
+			the taste. I kept wondering, “What is this? What could this be? How was this made?”
+		</p>
+		<p>
+			I was genuinely fascinated and curious. I wanted to understand what went into making something that tasted so
+			incredibly good. And just like that, a fire was ignited in me that day. I remember thinking, “I want to make this
+			sort of cake too!” That little experience planted a seed in my heart, a seed that would eventually grow into
+			LightCakes.
+		</p>
+		<p>
+			I understand that we are now in a generation where cakes are much more accessible, and almost everyone has had the
+			opportunity to taste different types of cakes at some point. It is not quite like it used to be back then. However,
+			my dream remains the same: I want to ensure that whoever tastes my cake will have an experience that leaves a
+			lasting impression.
+		</p>
+		<p>
+			Beyond the taste, I want my cakes to inspire. I want to inspire a child who might discover a passion for baking
+			after tasting one of my cakes. I want to inspire a young person to develop an interest, explore a dream and believe
+			in what is possible. I even want to inspire someone older to pick up a dream they may have thought was too late to
+			pursue.
+		</p>
+		<p>
+			And for those who may not have any interest in baking at all, I simply want to create exceptional experiences for
+			them. I want my cakes to make their celebrations and special occasions truly memorable. And that, in essence, is
+			how LightCakes was birthed.
+		</p>
+
+		<h2>More than baking — a heart for giving</h2>
+		<p>
+			There is another important part of my story that I want you to know. Coming from a humble background has shaped the
+			way I see life and the importance of giving. I understand that there are people who need a helping hand, a little
+			support and sometimes just an opportunity to experience a better tomorrow.
+		</p>
+		<p>
+			This is why giving back is an integral part of the LightCakes journey. For every order placed, a particular
+			percentage goes towards the LightCakes Foundation, which is dedicated to supporting children and individuals in
+			need, particularly back home in Nigeria.
+		</p>
+		<p>
+			So, when you place an order with us, you are not just getting value for your money or purchasing a cake for a
+			special occasion. You are also contributing to something meaningful. You are helping us extend love, kindness and
+			support to those who need it.
+		</p>
+		<p>
+			It is my hope that through LightCakes, we can continue to touch lives, make a difference and put smiles on faces,
+			even in our own little way.
+		</p>
+
+		<!-- Her closing line, set apart as a quote. Rose is fine here: 24px+ text only
+		     needs 3:1 contrast. -->
+		<blockquote class="my-10 border-l-2 border-pink pl-6 font-display text-2xl leading-tight text-rose italic">
+			Because to me, LightCakes is more than just baking cakes. It is about creating beautiful memories, inspiring lives
+			and spreading light, one cake at a time.
+		</blockquote>
+		<p>Thank you for being part of my story and the LightCakes journey.</p>
+		<p class="font-display text-xl">— Abimbola</p>
+	</Prose>
+
+	<!-- A FEW RECENT BAKES -->
+	<section class="bg-sand">
+		<div class="mx-auto flex max-w-content flex-col gap-6 px-5 py-14 lg:px-14">
+			<h2 class="text-center text-2xl">A few recent bakes</h2>
+			<ul class="grid gap-5 sm:grid-cols-3">
+				{
+					bakes.map((photo) => (
+						<li>
+							<Photo {...photo} sizes="(min-width: 640px) 33vw, 100vw" class="h-80 lg:h-96" />
+						</li>
+					))
+				}
+			</ul>
+			<a
+				href="/gallery"
+				class="flex min-h-11 items-center self-center text-sm font-semibold text-ink underline underline-offset-4"
+			>
+				See the full gallery <span aria-hidden="true">&nbsp;→</span>
+			</a>
+		</div>
+	</section>
+
+	<CtaBand title="Let's make something together" text="Tell me about your occasion — I'd love to hear what you have in mind.">
+		<Button href="/enquire">Start an enquiry</Button>
+		<Button href={whatsappLink("Hi Abimbola, I'd like to ask about an order.")} variant="outline">
+			Message on WhatsApp
+		</Button>
+	</CtaBand>
+</BaseLayout>

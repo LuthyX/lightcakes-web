@@ -4,14 +4,14 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Button from "../components/Button.astro";
 import EnquiryForm from "../components/EnquiryForm.astro";
 import PageHeader from "../components/PageHeader.astro";
-import { EMAIL, INSTAGRAM_URL, PHONE_DISPLAY, WHATSAPP_NUMBER, whatsappLink } from "../site";
+import { DELIVERY_AREA, EMAIL, INSTAGRAM_URL, PHONE_DISPLAY, WHATSAPP_NUMBER, whatsappLink } from "../site";
 
-// Lead times are placeholders until the client confirms them (AGENTS.md: never invent one)
+// Abimbola's notice periods (Nov 2026)
 const noticeTimes = [
-	"Brownies & cookie boxes — [X] days",
-	"Cupcakes & corporate orders — [X] days",
-	"Celebration cakes — [X] weeks",
-	"Wedding cakes — [X] months",
+	"Custom cakes — 7 days",
+	"Wedding cakes — 3 weeks",
+	"Corporate orders — 10 working days",
+	"Cake slices — always available",
 ];
 ---
 
@@ -21,7 +21,7 @@ const noticeTimes = [
 >
 	<PageHeader
 		title="Get in touch"
-		intro="Tell us what you're planning and we'll come back to you within one working day. No enquiry is too small or too early."
+		intro="Tell us what you're planning and we'll come back to you within two working days. No enquiry is too small or too early."
 	/>
 
 	<!-- FORM + CONTACT: stacked on phones; side by side on desktop,
@@ -48,7 +48,7 @@ const noticeTimes = [
 					<li>
 						<a href={`tel:+${WHATSAPP_NUMBER}`} class="text-rose underline underline-offset-4">{PHONE_DISPLAY}</a>
 					</li>
-					<li>Leeds, UK — delivery across [area]</li>
+					<li>Based in Leeds — delivering to {DELIVERY_AREA}</li>
 					<li>
 						<a href={INSTAGRAM_URL} class="text-rose underline underline-offset-4">Instagram</a>
 					</li>

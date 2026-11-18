@@ -5,33 +5,42 @@ import Button from "../components/Button.astro";
 import PageHeader from "../components/PageHeader.astro";
 import Photo from "../components/Photo.astro";
 import QuoteForm from "../components/QuoteForm.astro";
-import { EMAIL, whatsappLink } from "../site";
+import { DELIVERY_AREA, EMAIL, whatsappLink } from "../site";
+import { photos } from "../photos";
 
 // "What we make" grid. Prices are placeholders until the client supplies them.
+// The first four are what Abimbola has sent photos of. She doesn't do cookies or
+// brownies (Nov 2026); continental breakfast replaces them. TODO: confirm treat
+// boxes, and get her description of the continental breakfast.
 const products = [
 	{
-		name: "Branded cupcakes",
-		description: "Your logo, edible and hand-finished. From [YOUR PRICE] per dozen.",
+		name: "Cupcakes",
+		description:
+			"Vanilla, chocolate and red velvet — topped with fresh fruit, or finished with your branding. From [YOUR PRICE] per dozen.",
+		photo: photos.cupcakes.strawberryChocolatePair,
 	},
 	{
-		name: "Logo cookies",
-		description: "Iced by hand in your brand colours. From [YOUR PRICE] per dozen.",
+		name: "Cake slices",
+		description: "Generous slices of vanilla, chocolate and red velvet sponge, boxed for the office. Always available. From [YOUR PRICE].",
+		photo: photos.cakeSlices.boxedSlices,
 	},
 	{
-		name: "Brownies & blondies",
-		description: "Individually wrapped, ideal for posting. From [YOUR PRICE] per box.",
+		name: "Event & conference treats",
+		description: "Individually wrapped slices with a fork and ribbon, ready to hand out at any headcount. Quoted per event.",
+		photo: photos.cakeSlices.wrappedSlicesEvent,
+	},
+	{
+		name: "Christmas slab cakes",
+		description: "Boxed and piped in festive colours — a thoughtful gift for clients and teams. Book early, slots fill fast.",
+		photo: photos.christmas.slabCakesPair,
+	},
+	{
+		name: "Continental breakfast",
+		description: "[Abimbola to describe what's included.] Quoted per order.",
 	},
 	{
 		name: "Corporate treat boxes",
 		description: "A mixed selection, branded and ready to gift. From [YOUR PRICE].",
-	},
-	{
-		name: "Event & conference catering",
-		description: "Dessert tables and grazing spreads for any headcount. Quoted per event.",
-	},
-	{
-		name: "Seasonal gifting",
-		description: "Christmas, Easter and year-end hampers. Book early — slots fill fast.",
 	},
 ];
 
@@ -43,22 +52,22 @@ const reasons = [
 	},
 	{
 		title: "Built for bulk",
-		text: "From a dozen to several hundred. Tell us the headcount and we'll tell you what's possible.",
+		text: "Corporate orders start from £200. Tell us the headcount and we'll tell you what's possible.",
 	},
 	{
 		title: "Invoiced properly",
-		text: "Formal quotes, VAT receipts and invoices with your PO reference, payable by bank transfer or card.",
+		text: "Formal quotes and invoices with your PO reference, payable by bank transfer or card.",
 	},
 	{
 		title: "Delivered on the day",
-		text: "Delivery across [area], or collection. We'll confirm timings when you book.",
+		text: `Delivery to ${DELIVERY_AREA}, or collection. We'll confirm timings when you book.`,
 	},
 ];
 ---
 
 <BaseLayout
-	title="Corporate Treats · LightCakes"
-	description="Branded cupcakes, logo cookies, treat boxes and event catering for businesses — handmade and quoted to your order."
+	title="Corporate Gifting · LightCakes"
+	description="Cupcakes, cake slices, Christmas slab cakes and event treats for businesses in Leeds — handmade, branded and quoted to your order."
 >
 	<PageHeader
 		eyebrow="For businesses"
@@ -68,7 +77,7 @@ const reasons = [
 		<div class="mt-2">
 			<Button href="#quote">Request a quote</Button>
 		</div>
-		<Photo slot="aside" alt="Branded gift box spread" class="h-60 lg:h-75" />
+		<Photo slot="aside" {...photos.cupcakes.vanillaStack} eager class="h-72 lg:h-96" />
 	</PageHeader>
 
 	<!-- WHAT WE MAKE: 1 column on phones, 2 on tablets, 3 on desktop -->
@@ -78,7 +87,14 @@ const reasons = [
 			{
 				products.map((product, i) => (
 					<li class="flex flex-col gap-2.5">
-						<Photo alt={product.name} tone={i % 2 === 0 ? "pink" : "sand"} class="h-45" />
+						<!-- No photo yet → placeholder named after the product -->
+						<Photo
+							src={product.photo?.src}
+							alt={product.photo?.alt ?? product.name}
+							tone={i % 2 === 0 ? "pink" : "sand"}
+							sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+							class="h-64"
+						/>
 						<h3 class="text-xl">{product.name}</h3>
 						<p class="text-sm text-ink-soft">{product.description}</p>
 					</li>
@@ -88,7 +104,8 @@ const reasons = [
 		<!-- Corporate orders are quoted, not bought on the page, so the exact allergen
 		     list goes in the quote rather than on each product -->
 		<p class="text-sm text-ink-soft">
-			Allergens depend on the recipe and finish you choose — we'll list them in your quote. See our{" "}
+			Everything we make contains milk, eggs and wheat (gluten). Anything else in your order will be listed in your
+			quote. See our{" "}
 			<a href="/allergens" class="text-rose underline underline-offset-4">allergen information</a>.
 		</p>
 	</section>
@@ -112,7 +129,7 @@ const reasons = [
 
 	<!-- LEAD TIME -->
 	<p class="border-b border-border px-5 py-9 text-center font-display text-lg text-rose italic">
-		Please allow at least [X] days' notice for corporate orders — larger events, two to three weeks.
+		Please allow at least 10 working days' notice for corporate orders — cake slices are always available.
 	</p>
 
 	<!-- QUOTE: the nav's "Get a Quote" button links here via #quote.
@@ -121,7 +138,7 @@ const reasons = [
 		<div class="flex flex-col gap-3.5 lg:col-span-2">
 			<h2 class="text-2xl">Request a quote</h2>
 			<p class="text-sm leading-loose text-ink-soft">
-				Tell us roughly what you need and when, and we'll come back to you within one working day with a price.
+				Tell us roughly what you need and when, and we'll come back to you within two working days with a price.
 			</p>
 			<p class="text-sm leading-loose text-ink-soft">
 				Prefer to talk it through?{" "}

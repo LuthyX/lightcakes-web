@@ -25,9 +25,9 @@ Audience is in the UK. Prices in GBP.
 | File | Page |
 | --- | --- |
 | `docs/design/home.html` | Home |
-| `docs/design/corporate-treats.html` | Corporate Treats, including the full quote form |
+| `docs/design/corporate-treats.html` | Corporate Gifting (was "Corporate Treats"), including the full quote form |
 | `docs/design/custom-cakes.html` | Custom Cakes |
-| `docs/design/shop.html` | Shop |
+| `docs/design/shop.html` | Shop — page removed at the client's request; no longer used |
 | `docs/design/enquire.html` | Enquire |
 | `docs/design/home-mobile.html` | Home at 390px — the reference for how everything collapses on a phone |
 
@@ -51,39 +51,41 @@ Given the deadline, the mode is **generate → I review → I tweak**, not "I wr
 - **No e-commerce / checkout.** Agreed with the client. See Payments below. **Do not add a cart, a checkout, or any server-side payment code.** A real checkout is an explicitly deferred phase two.
 - **Hosting:** Netlify, deployed from GitHub on push. Set this up on day one, not at the end.
 
-## Scope — 5 pages for launch
+## Scope — pages for launch
+
+The client chose the nav and pages on 2026-11-15 (replacing the earlier five-page plan; the Shop page was removed).
 
 | Route | File | Contents |
 | --- | --- | --- |
-| `/` | `src/pages/index.astro` | Hero, two paths, how ordering works, gallery preview, about/authenticity section, testimonials, CTA |
-| `/corporate-treats` | `src/pages/corporate-treats.astro` | Product grid with "from" prices, selling points, lead-time band, quote form |
-| `/custom-cakes` | `src/pages/custom-cakes.astro` | Categories, large gallery, bespoke process, enquiry CTA |
-| `/shop` | `src/pages/shop.astro` | Fixed-price items with Stripe payment link buttons — **conditional, see below** |
+| `/` | `src/pages/index.astro` | Hero, two paths, how ordering works, gallery preview (links to `/gallery`), short about teaser (links to `/about`), testimonials, CTA |
+| `/custom-cakes` | `src/pages/custom-cakes.astro` | Category tiles (link to gallery sections / wedding page), gallery, bespoke process, enquiry CTA |
+| `/corporate-gifting` | `src/pages/corporate-gifting.astro` | Product grid with "from" prices, selling points, lead-time band, quote form (`#quote`) |
+| `/about` | `src/pages/about.astro` | Abimbola's story and photo (both placeholders until she sends them), a few bakes, CTA |
+| `/gallery` | `src/pages/gallery.astro` | Every photo, grouped by category (`galleryCategories` in `src/photos.ts`) with jump links |
+| `/faqs` | `src/pages/faqs.astro` | Draft FAQs in `<details>` toggles; `[Abimbola to confirm: …]` placeholders where only she knows the answer |
 | `/enquire` | `src/pages/enquire.astro` | Enquiry form, WhatsApp CTA, contact details, lead times |
+| `/privacy`, `/allergens` | `src/pages/privacy.astro`, `allergens.astro` | Legal pages, linked from the footer and forms |
 
-**Nav:** Home · Corporate Treats · Custom Cakes · Shop · Enquire, plus a "Get a Quote" button in accent pink.
+**Nav:** Home · Custom Cakes · Corporate Gifting · About · Gallery · FAQs, plus an "Enquire" button in accent pink (→ `/enquire`). The full row only just fits at laptop width, so the hamburger menu is used up to `xl:` (1280px).
 
-**The Shop page is built** on the expectation that she'll sell fixed-price, shelf-stable items (brownie boxes, cookie tins) — not yet confirmed by her. If she doesn't want it: delete `src/pages/shop.astro` and the Shop entry in `navLinks` in `BaseLayout.astro`, and the nav returns to four items. Her Stripe Payment Links don't exist yet; until a product has one, its button falls back to the enquiry page.
+**Wedding cakes are a category within Custom Cakes**, alongside birthday, children's and baby shower cakes — not a separate page (Abimbola's call, Nov 2026). The Wedding tile links to `/gallery#wedding`; add new wedding photos to `photos.wedding` in `src/photos.ts`.
 
-**Deferred until after launch** (do not build these now): standalone Gallery and About pages, a cart, customer accounts, order history, a CMS, a blog, order tracking, a date picker with availability. About and Gallery live as homepage sections for now.
+`/corporate-treats` was renamed `/corporate-gifting`; `netlify.toml` redirects the old address (and `/shop` → `/`).
 
-`corporate-treats.astro` and `custom-cakes.astro` share almost all their structure — build one, then reuse its components for the other. Don't write the second from scratch.
+**Deferred until after launch** (do not build these now): a shop or online payments, a cart, customer accounts, order history, a CMS, a blog, order tracking, a date picker with availability.
 
 ## Payments
 
-Three ordering routes, none of which need a backend:
+Two ordering routes, neither of which needs a backend:
 
-1. **Fixed-price items** → Stripe Payment Link buttons on `/shop`. Plain `<a href="https://buy.stripe.com/…">Order now</a>`, nothing more.
-2. **Corporate** → quote form → emails the owner → she raises a Stripe invoice from her dashboard.
-3. **Bespoke cakes** → WhatsApp or enquiry form → conversation → 50% deposit invoice, then balance invoice.
+1. **Corporate** → quote form → emails the owner → she raises a Stripe invoice from her dashboard.
+2. **Bespoke and wedding cakes** → WhatsApp or enquiry form → conversation → 50% deposit invoice, then balance invoice.
 
-Everything beyond the anchor tags is configured by the owner in the Stripe dashboard. **No API keys in this project. No webhooks. No server.**
-
-Worth knowing when writing Shop page copy: Stripe's checkout collects quantity (with min/max), delivery address and phone — so the site does **not** need those. It allows a maximum of **three custom fields** per link (here: date needed, allergies, message/inscription) and up to ten optional add-on items. There is no cart, so each product is a separate transaction.
+Everything is done by the owner in her Stripe dashboard. **No API keys in this project. No webhooks. No server. No payment buttons on the site.**
 
 ## Quote form — build spec
 
-Lives on `/corporate-treats`. Posts to Formspree or Web3Forms, which emails the owner. Turn on the service's autoresponder.
+Lives on `/corporate-gifting` (`#quote`). Posts to Formspree or Web3Forms, which emails the owner. Turn on the service's autoresponder.
 
 Six required fields only — every extra required field loses completions. Quantity and date needed are required because they're the two biggest price drivers.
 
@@ -92,7 +94,7 @@ Six required fields only — every extra required field loses completions. Quant
 | Your name | `text` | Yes |
 | Company name | `text` | Yes |
 | Email | `email` | Yes |
-| What are you interested in? | `select`: branded cupcakes / logo cookies / brownies & blondies / corporate treat boxes / branded gift boxes / event catering / something else | Yes |
+| What are you interested in? | `select`: cupcakes / cake slices / event & conference treats / Christmas slab cakes / continental breakfast / corporate treat boxes / something else (matches the products on `/corporate-gifting`) | Yes |
 | Approximate quantity | `number` | Yes |
 | Date needed | `date` | Yes |
 | Phone | `tel` | No |
@@ -126,20 +128,21 @@ Direction is "Warm & Handcrafted" — ivory ground, warm brown text, pale pink a
 
 **Pale pink is a fill colour, never text on a light background** — it fails contrast. Accent text uses `text-rose` or `text-ink`.
 
-**Typography:** Cormorant Garamond (`font-display`) for headings at weight 500, Karla (`font-body`) for everything else, loaded from Google Fonts in `BaseLayout.astro`.
+**Typography:** Fraunces (`font-display`) for headings at regular weight (400), with its `SOFT` and `WONK` axes turned up for a warm, handcrafted feel (set once in `global.css` via `--font-display--font-variation-settings`). Karla (`font-body`) for everything else. Both loaded from Google Fonts in `BaseLayout.astro`. Replaced Cormorant Garamond in Nov 2026 because it read as generic. No script or handwritten fonts for headings or body text.
 
 **Copy tone:** warm, personal, specific. "Baked by hand, in small batches" — never "Welcome to our website" or generic marketing filler.
 
 **Two copy points that must appear** (they're the specific things that convert each audience):
 
-- Corporate Treats must state that **invoicing, VAT receipts and PO references** are handled. That's the reassurance a procurement contact is looking for.
+- Corporate Gifting must state that **formal quotes, invoicing and PO references** are handled. That's the reassurance a procurement contact is looking for. **Don't mention VAT receipts** — she isn't VAT-registered.
 - Custom Cakes should carry a **"from" price**. People who can't tell whether the answer is £80 or £800 don't enquire at all.
 
 ## Conventions
 
 - Shared shell (nav, footer, `<head>`, font links) lives in `src/layouts/BaseLayout.astro`. Every page uses it — never copy the nav into a page.
 - Reusable pieces go in `src/components/`.
-- Images in `public/images/`, referenced as `/images/…`.
+- **Photos** live in `src/assets/photos/<category>/` and are registered, with their alt text, in `src/photos.ts`. Pages use `<Photo {...photos.birthday.heartRedBows} class="h-64" />`; Astro's `<Image>` (inside `Photo.astro`) makes resized WebP copies with `srcset`/`width`/`height` at build time. The originals Abimbola sent are in `cake_pictures/` (git-ignored); resize to 2400px long edge and strip metadata before adding new ones.
+- Other static files (logo, favicons) stay in `public/images/`, referenced as `/images/…`.
 - **Mobile-first**: write base classes for phone width, widen with `md:` / `lg:` prefixes. `docs/design/home-mobile.html` is the reference.
 - Always use responsive `<img>` with `loading="lazy"` and explicit `width`/`height`.
 
@@ -156,12 +159,19 @@ Direction is "Warm & Handcrafted" — ivory ground, warm brown text, pale pink a
 
 - **UK GDPR** — both forms collect personal data, so the site needs a short privacy notice linked from every form and the footer.
 - **Allergens** — as a UK food business she has allergen information obligations. Keep the allergen question on the enquiry form, and link `/allergens` from the footer.
-  - **Shop products** (bought online) must show the full ingredients list **before purchase**, with each of the 14 allergens in **bold** — the UK labelling format. It sits in an "Ingredients & allergens" `<details>` toggle on each product card, from the product's `ingredients` field. Don't add a separate "Contains: …" line repeating the bold allergens; a "may contain" warning is fine (`mayContain`).
+  - Everything is made to order and quoted, so allergens are listed in each customer's quote, before they pay. If anything is ever sold online again, it must show the full ingredients list **before purchase**, with each of the 14 allergens in **bold** (the UK labelling format).
   - **Corporate and bespoke products** are quoted, not bought on the page: one note under the grid says allergens are listed in the quote, linking to `/allergens`. No per-product allergen line.
   - Ingredients and allergens must come from her recipes — never fill them in from assumptions.
 
 ## Placeholders
 
-**The business name is LightCakes** (one word, capital C — confirmed by Peter). **The owner is Abimbola Ademoluti, based in Leeds, UK** (delivery area not yet confirmed — keep `[area]`). Instagram: `https://www.instagram.com/lightcakes_/` (set as `INSTAGRAM_URL` in `src/site.ts`). The logo source is `public/images/main.png` (1080×1350, LC monogram + wordmark on an off-white background); `public/images/logo-mark.png` (monogram, transparent) is used in the nav and `public/favicon.png` / `favicon.ico` are generated from it.
+**The business name is LightCakes** (one word, capital C — confirmed by Peter). **The owner is Abimbola Ademoluti, based in Leeds, UK** (delivers to Leeds, Wakefield, Sheffield, Manchester, York, Middlesbrough, Huddersfield and Bradford — `DELIVERY_AREA` in `src/site.ts`). Instagram: `https://www.instagram.com/lightcakes_/` (set as `INSTAGRAM_URL` in `src/site.ts`). The logo source is `public/images/main.png` (1080×1350, LC monogram + wordmark on an off-white background); `public/images/logo-mark.png` (monogram, transparent) is used in the nav and `public/favicon.png` / `favicon.ico` are generated from it.
 
-Photography, testimonials, prices and lead times are **not yet final**. Use clearly marked placeholders (`[YOUR PRICE]`, `[X] days`) and keep image files swappable. **Never invent a fake testimonial, a made-up price or a lead time.**
+**Confirmed by Abimbola (Nov 2026):**
+- Notice: custom cakes 7 days, wedding cakes 3 weeks, corporate orders 10 working days; cake slices always available.
+- Corporate minimum order £200. She doesn't do cookies or brownies; she offers continental breakfast. No tastings — don't mention them.
+- Every product contains milk, eggs and wheat (gluten); no gluten-free, dairy-free or vegan options.
+- Cancellation: refundable more than 7 days before collection/delivery; not refundable within 7 days.
+- Replies to enquiries within **two working days**. Enquiries that don't become orders are deleted after 6 months.
+
+Photography, testimonials and prices are **not yet final**. Use clearly marked placeholders (`[YOUR PRICE]`, `£[X]`) and keep image files swappable. **Never invent a fake testimonial, a made-up price or a lead time.**

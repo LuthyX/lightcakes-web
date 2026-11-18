@@ -25,3 +25,9 @@ pnpm-debug.log*
 
 # design mockups (reference only, not part of the site)
 docs/design/
+
+# client's original photos (resized copies live in src/assets/photos)
+cake_pictures/
+# client source files (processed copies live in src/assets/photos and the pages)
+4q.png
+Light_Cakes_About_Me.docx

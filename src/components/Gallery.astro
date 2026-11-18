@@ -1,12 +1,13 @@
 ---
 // Grid of photos: 2 columns on phones, 4 on desktop.
-// Used on Custom Cakes ("Cakes we've made") and the homepage ("Recent work").
-//   <Gallery photos={[{ alt: "Three-tier wedding cake with fresh roses" }, …]} />
-// Add src/width/height to each photo once the real files exist.
+// Used on the homepage, Custom Cakes and the Gallery page.
+//   <Gallery photos={[photos.birthday.heartRedBows, photos.childrens.fairyGarden]} />
+// Photos come from src/photos.ts; an entry without src shows a placeholder.
+import type { ImageMetadata } from "astro";
 import Photo from "./Photo.astro";
 
 interface Props {
-	photos: { src?: string; alt: string; width?: number; height?: number }[];
+	photos: { src?: ImageMetadata; alt: string }[];
 	// Placeholder backgrounds, alternated. Pick ones that contrast with the section behind.
 	tones?: ("pink" | "sand" | "ground")[];
 }
@@ -14,11 +15,18 @@ interface Props {
 const { photos, tones = ["pink", "sand"] } = Astro.props;
 ---
 
+<!-- Cells are taller than wide because most of the photos are portrait;
+     object-cover (in Photo) crops each photo to fill its cell -->
 <ul class="grid grid-cols-2 gap-4 lg:grid-cols-4">
 	{
 		photos.map((photo, i) => (
 			<li>
-				<Photo {...photo} tone={tones[i % tones.length]} class="h-40 lg:h-57.5" />
+				<Photo
+					{...photo}
+					tone={tones[i % tones.length]}
+					sizes="(min-width: 1024px) 25vw, 50vw"
+					class="h-56 lg:h-72"
+				/>
 			</li>
 		))
 	}

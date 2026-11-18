@@ -1,20 +1,37 @@
 ---
 // A photo, or a dashed placeholder box until the real photo exists.
-// To swap in a real photo, add src (and width/height of the actual file):
-//   <Photo alt="Branded cupcakes in a gift box" class="h-48" />
-//   <Photo src="/images/cupcakes.jpg" width={1200} height={900} alt="Branded cupcakes in a gift box" class="h-48" />
+//   <Photo {...photos.birthday.heartRedBows} class="h-64" />   (src + alt from src/photos.ts)
+//   <Photo alt="Abimbola in her kitchen" class="h-64" />        (placeholder until it arrives)
+//
+// Astro's <Image> does the heavy lifting at build time: it reads the original's
+// size, writes smaller WebP copies (one per entry in `widths`), and outputs an
+// <img> with srcset/sizes so each browser downloads the smallest copy that
+// still looks sharp on its screen. width/height and lazy loading come for free.
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
 interface Props {
-	src?: string;
+	src?: ImageMetadata;
 	alt: string;
-	width?: number;
-	height?: number;
 	// Placeholder background only
 	tone?: "pink" | "sand" | "ground";
-	// Sizing, e.g. "h-48"
+	// How wide the photo is on screen, so the browser can pick a copy before
+	// layout. Default suits a photo filling about half the page on desktop.
+	sizes?: string;
+	// Load straight away instead of lazily: only for photos at the top of a page
+	eager?: boolean;
+	// Sizing, e.g. "h-64"
 	class?: string;
 }
 
-const { src, alt, width = 1200, height = 900, tone = "pink", class: className } = Astro.props;
+const {
+	src,
+	alt,
+	tone = "pink",
+	sizes = "(min-width: 1024px) 50vw, 100vw",
+	eager = false,
+	class: className,
+} = Astro.props;
 
 const tones = {
 	pink: "bg-pink-tint",
@@ -25,12 +42,12 @@ const tones = {
 
 {
 	src ? (
-		<img
+		<Image
 			src={src}
 			alt={alt}
-			width={width}
-			height={height}
-			loading="lazy"
+			widths={[400, 800, 1200, 1800]}
+			sizes={sizes}
+			loading={eager ? "eager" : "lazy"}
 			class:list={["w-full rounded-sm object-cover", className]}
 		/>
 	) : (

@@ -7,3 +7,15 @@
 [build.environment]
   # package.json requires Node >= 22.12; pin it so Netlify doesn't build with an older default
   NODE_VERSION = "22"
+
+# Old addresses → new ones (client renamed/removed these pages). 301 = moved
+# permanently, so browsers and Google update their links.
+[[redirects]]
+  from = "/corporate-treats"
+  to = "/corporate-gifting"
+  status = 301
+
+[[redirects]]
+  from = "/shop"
+  to = "/"
+  status = 301

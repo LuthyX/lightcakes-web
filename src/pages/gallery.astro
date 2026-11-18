@@ -1,0 +1,67 @@
+---
+// Every photo, grouped by category (the groups and their order live in
+// src/photos.ts). The links at the top jump to each group's #id, so there's
+// no filtering JavaScript to maintain.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/Button.astro";
+import CtaBand from "../components/CtaBand.astro";
+import Gallery from "../components/Gallery.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { galleryCategories } from "../photos";
+import { INSTAGRAM_URL, whatsappLink } from "../site";
+---
+
+<BaseLayout
+	title="Gallery · LightCakes"
+	description="Wedding, birthday, children's and baby shower cakes, cupcakes and more — all baked by hand in Leeds by LightCakes."
+>
+	<PageHeader
+		eyebrow="Gallery"
+		title="Cakes we've made"
+		intro="Every cake here was designed for someone's day and baked by hand in Leeds. Have a look around — then tell us about yours."
+	/>
+
+	<!-- Jump links: pill-shaped links to each section below -->
+	<nav aria-label="Gallery categories" class="mx-auto max-w-content px-5 pb-10 lg:px-14">
+		<ul class="flex flex-wrap justify-center gap-2.5">
+			{
+				galleryCategories.map((category) => (
+					<li>
+						<a
+							href={`#${category.id}`}
+							class="flex min-h-11 items-center rounded-full border border-nude px-4 text-sm font-medium text-ink-soft hover:border-ink hover:text-ink"
+						>
+							{category.title}
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</nav>
+
+	<div class="mx-auto flex max-w-content flex-col gap-14 px-5 pb-15 lg:px-14">
+		{
+			galleryCategories.map((category) => (
+				// scroll-mt-6 leaves a little space above the heading when a jump link lands here
+				<section id={category.id} class="flex scroll-mt-6 flex-col gap-5">
+					<h2 class="text-2xl">{category.title}</h2>
+					<Gallery photos={category.photos} />
+				</section>
+			))
+		}
+		<p class="text-center text-ink-soft">
+			More of our recent bakes are on{" "}
+			<a href={INSTAGRAM_URL} class="text-rose underline underline-offset-4">Instagram</a>.
+		</p>
+	</div>
+
+	<CtaBand
+		title="Seen something you love?"
+		text="Send us the photo and your date, and we'll talk about making something just for you."
+	>
+		<Button href="/enquire">Start an enquiry</Button>
+		<Button href={whatsappLink("Hi, I saw a cake in your gallery and I'd love something similar.")} variant="outline">
+			Message on WhatsApp
+		</Button>
+	</CtaBand>
+</BaseLayout>

@@ -27,7 +27,11 @@
   --color-border: rgb(62 44 34 / 0.14); /* Hairlines — warm, not grey */
 
   /* --- Typography ---------------------------------------------- */
-  --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  /* Fraunces is a variable font with extra "axes" (dials) beyond weight:
+     SOFT rounds off its corners and WONK gives a few letters a hand-made lean.
+     Turned up here for the warm, handcrafted feel; every font-display use gets it. */
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-display--font-variation-settings: "SOFT" 100, "WONK" 1;
   --font-body: "Karla", system-ui, -apple-system, "Segoe UI", sans-serif;
 
   --text-xs: 0.8125rem; /* 13px — captions      */
@@ -64,7 +68,8 @@
   h1,
   h2,
   h3 {
-    @apply font-display font-medium leading-tight;
+    /* Regular weight: Fraunces is much fuller than the old Cormorant, so 500 looks heavy */
+    @apply font-display font-normal leading-tight;
   }
 
   /* Keyboard focus ring for everything interactive. :focus-visible only
