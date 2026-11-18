@@ -200,7 +200,9 @@ const year = new Date().getFullYear();
 							}
 						}
 					},
-					{ threshold: 0.1 }, // fire when 10% of the block is visible
+					// Fire once the block's top edge is 10% up from the bottom of the screen.
+					// (A "10% visible" threshold can take ages on very tall blocks like the gallery.)
+					{ threshold: 0, rootMargin: "0px 0px -10% 0px" },
 				);
 
 				for (const block of document.querySelectorAll("main > *")) {

@@ -8,6 +8,7 @@ import CtaBand from "../components/CtaBand.astro";
 import PageHeader from "../components/PageHeader.astro";
 import Photo from "../components/Photo.astro";
 import Prose from "../components/Prose.astro";
+import Signature from "../components/Signature.astro";
 import { photos } from "../photos";
 import { whatsappLink } from "../site";
 
@@ -24,8 +25,8 @@ const bakes = [photos.childrens.fairyGarden, photos.wedding.whiteRufflesGreenery
 		title="Hello, I'm Abimbola"
 		intro="I'm the baker behind LightCakes. Every cake and treat is designed and baked by hand in my kitchen in Leeds."
 	>
-		<!-- object-top: when the box crops the photo, keep her face, lose the bottom -->
-		<Photo slot="aside" {...photos.about.abimbolaPortrait} eager class="h-96 object-top lg:h-140" />
+		<!-- Arched; object-top: when the box crops the photo, keep her face, lose the bottom -->
+		<Photo slot="aside" {...photos.about.abimbolaPortrait} arch eager class="h-96 object-top lg:h-140" />
 	</PageHeader>
 
 	<Prose>
@@ -93,11 +94,11 @@ const bakes = [photos.childrens.fairyGarden, photos.wedding.whiteRufflesGreenery
 			and spreading light, one cake at a time.
 		</blockquote>
 		<p>Thank you for being part of my story and the LightCakes journey.</p>
-		<p class="font-display text-xl">— Abimbola</p>
+		<Signature />
 	</Prose>
 
 	<!-- A FEW RECENT BAKES -->
-	<section class="bg-sand">
+	<section class="scallop-top scallop-bottom bg-sand">
 		<div class="mx-auto flex max-w-content flex-col gap-6 px-5 py-14 lg:px-14">
 			<h2 class="text-center text-2xl">A few recent bakes</h2>
 			<ul class="grid gap-5 sm:grid-cols-3">

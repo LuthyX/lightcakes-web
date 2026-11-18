@@ -1,0 +1,16 @@
+---
+// Abimbola's handwritten signature, with the pink heart from her logo.
+// Used at the end of the homepage about teaser and her story on /about.
+// The heart is decorative (aria-hidden), so screen readers just say "Abimbola".
+// A <div>, not a <p>: inside Prose, every <p> is forced to soft brown, which
+// would override text-rose here.
+---
+
+<div class="flex items-center gap-2 font-script text-3xl text-rose">
+	Abimbola
+	<svg aria-hidden="true" viewBox="0 0 24 24" class="size-5 fill-pink">
+		<path
+			d="M12 21s-7.4-4.6-9.5-9.1C.9 8.4 3 5 6.4 5c2 0 3.6 1.1 4.6 2.6C12 6.1 13.6 5 15.6 5c3.4 0 5.5 3.4 3.9 6.9C17.4 16.4 12 21 12 21z"
+		></path>
+	</svg>
+</div>

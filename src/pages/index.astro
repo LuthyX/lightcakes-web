@@ -6,6 +6,7 @@ import CtaBand from "../components/CtaBand.astro";
 import Gallery from "../components/Gallery.astro";
 import Photo from "../components/Photo.astro";
 import ProcessSteps from "../components/ProcessSteps.astro";
+import Signature from "../components/Signature.astro";
 import { INSTAGRAM_URL, whatsappLink } from "../site";
 import { photos } from "../photos";
 
@@ -176,16 +177,7 @@ const testimonials = [
 					could taste so good. That moment lit a fire in me — and it's why I bake: so that whoever tastes my cake has an
 					experience that leaves a lasting impression.
 				</p>
-				<!-- Signed off in a handwritten script, with the pink heart from her logo.
-				     The heart is decorative, so screen readers skip it. -->
-				<p class="flex items-center gap-2 font-script text-3xl text-rose">
-					Abimbola
-					<svg aria-hidden="true" viewBox="0 0 24 24" class="size-5 fill-pink">
-						<path
-							d="M12 21s-7.4-4.6-9.5-9.1C.9 8.4 3 5 6.4 5c2 0 3.6 1.1 4.6 2.6C12 6.1 13.6 5 15.6 5c3.4 0 5.5 3.4 3.9 6.9C17.4 16.4 12 21 12 21z"
-						></path>
-					</svg>
-				</p>
+				<Signature />
 				<a
 					href="/about"
 					class="flex min-h-11 items-center self-start text-sm font-semibold text-ink underline underline-offset-4"
