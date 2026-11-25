@@ -81,8 +81,9 @@
     @apply outline-2 outline-offset-2 outline-rose;
   }
 
-  /* Rose on the dark footer is too faint (about 2.5:1), so use ivory there */
-  footer :focus-visible {
+  /* Rose is too faint on a dark background (about 2.5:1), so use ivory inside
+     anything marked class="on-dark", e.g. text laid over a darkened photo */
+  .on-dark :focus-visible {
     @apply outline-ground;
   }
 }

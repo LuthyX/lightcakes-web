@@ -1,59 +1,35 @@
 ---
 // Frontmatter: runs at build time only. Nothing here reaches the browser.
+// Section order: full-width photo hero, three arched cards, about (photo/text
+// split), baked in Leeds (text/photo split), client logos, testimonials,
+// full-width photo call to action.
+import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Button from "../components/Button.astro";
-import CtaBand from "../components/CtaBand.astro";
-import Gallery from "../components/Gallery.astro";
 import Photo from "../components/Photo.astro";
-import ProcessSteps from "../components/ProcessSteps.astro";
 import Signature from "../components/Signature.astro";
-import { INSTAGRAM_URL, whatsappLink } from "../site";
+import { DELIVERY_AREA, whatsappLink } from "../site";
 import { photos } from "../photos";
 
-const paths = [
-	{
-		title: "Corporate Gifting",
-		text: "Cupcakes, individually wrapped cake slices and seasonal treats, finished with your branding — for client thank-yous, staff appreciation, events and gifting. Bulk orders welcome.",
-		photo: photos.cakeSlices.wrappedSlicesEvent,
-		link: { href: "/corporate-gifting#quote", label: "Request a quote" },
-	},
+const cards = [
 	{
 		title: "Custom Cakes",
-		text: "Bespoke cakes for weddings, birthdays, christenings and every milestone in between — designed around you, from flavour to finish.",
+		text: "Wedding, birthday, children's and baby shower cakes, designed around you — from flavour to finish.",
 		photo: photos.birthday.heartRedBows,
-		link: { href: "/enquire", label: "Start an enquiry" },
-	},
-];
-
-const steps = [
-	{
-		title: "Tell us what you need",
-		text: "Fill in the quote form or send a message on WhatsApp with your date and rough numbers.",
+		link: { href: "/custom-cakes", label: "Explore custom cakes" },
 	},
 	{
-		title: "We design it together",
-		text: "Flavours, sizes, branding and finish — we'll talk it through and send you a quote.",
+		title: "Corporate Gifting",
+		text: "Cupcakes, individually wrapped cake slices and seasonal treats, finished with your branding.",
+		photo: photos.cakeSlices.wrappedSlicesEvent,
+		link: { href: "/corporate-gifting", label: "See corporate gifting" },
 	},
 	{
-		title: "Confirm your date",
-		text: "A deposit secures your slot in the diary. Pay by card or bank transfer, whichever suits.",
+		title: "Gallery",
+		text: "Every cake here was designed for someone's day. Have a look around for ideas for yours.",
+		photo: photos.birthday.navyGoldMyKing,
+		link: { href: "/gallery", label: "View the gallery" },
 	},
-	{
-		title: "Baked and delivered",
-		text: "Freshly made to order, delivered or ready for collection on the day you need it.",
-	},
-];
-
-// "Recent work": a spread across her categories. The full set is on /gallery.
-const galleryPhotos = [
-	photos.birthday.heartBlackBows,
-	photos.childrens.hotAirBalloons,
-	photos.wedding.whiteRufflesGreenery,
-	photos.babyShower.genderReveal,
-	photos.birthday.blackGoldMyDiamond,
-	photos.childrens.fairyGarden,
-	photos.cupcakes.strawberryRedVelvet,
-	photos.christmas.slabCakeBoxed,
 ];
 
 // Placeholders only: never invent a testimonial (AGENTS.md)
@@ -62,143 +38,140 @@ const testimonials = [
 	{ quote: "[Client testimonial — to be supplied]", by: "[Name], [Occasion]" },
 	{ quote: "[Client testimonial — to be supplied]", by: "[Name], [Company]" },
 ];
+
+// Shared settings for the full-bleed photos below. They're drawn with Astro's
+// <Image> directly rather than <Photo>, because Photo always rounds its corners.
+const fullBleed = { widths: [800, 1200, 1800, 2400], class: "absolute inset-0 size-full object-cover" };
 ---
 
-<BaseLayout title="LightCakes · Bespoke cakes & branded treats">
-	<!-- HERO -->
-	<section class="mx-auto flex max-w-content flex-col items-center gap-3.5 px-5 pt-8 pb-7 text-center lg:gap-4.5 lg:px-30 lg:pt-14 lg:pb-9">
-		<p class="text-sm font-semibold tracking-widest text-rose uppercase">Baked by hand, in small batches</p>
-		<h1 class="max-w-205 text-2xl md:text-3xl lg:text-hero">
-			Handmade cakes and treats, made for the people you're celebrating
-		</h1>
-		<p class="max-w-155 text-ink-soft md:text-lg md:leading-loose">
-			Bespoke celebration cakes and beautifully branded corporate treats — from a small kitchen that cares about the
-			details.
-		</p>
-		<!-- Full-width stacked buttons on phones, side by side from sm: up -->
-		<div class="mt-1.5 flex w-full flex-col gap-2.5 sm:w-auto sm:flex-row sm:gap-4">
-			<Button href="/custom-cakes" class="min-h-12 px-7.5">Custom Cakes</Button>
-			<Button href="/corporate-gifting" variant="outline" class="min-h-12 px-7.5">Corporate Gifting</Button>
+<BaseLayout title="Light Cakes · Bespoke cakes & branded treats">
+	<!-- HERO: a photo filling the whole band, darkened by an ink overlay so ivory
+	     text on top stays readable (ink at 70% keeps it above 4.5:1 even over the
+	     pale parts of the photo).
+	     "relative" makes this section the positioning parent for the absolute photo
+	     and overlay; "isolate" + -z-10 keeps them behind the text without slipping
+	     behind the page itself. "on-dark" switches focus outlines to ivory. -->
+	<section class="on-dark relative isolate flex min-h-120 items-center lg:min-h-150">
+		<Image
+			{...photos.cupcakes.strawberryBoard}
+			{...fullBleed}
+			sizes="100vw"
+			loading="eager"
+			class={`${fullBleed.class} -z-10`}
+		/>
+		<div class="absolute inset-0 -z-10 bg-ink/70"></div>
+		<div class="mx-auto flex max-w-content flex-col items-center gap-4 px-5 py-16 text-center text-ground lg:px-30">
+			<p class="text-sm font-semibold tracking-widest uppercase">Baked by hand, in small batches</p>
+			<h1 class="max-w-205 text-3xl lg:text-hero">Handmade cakes and treats, made for the people you're celebrating</h1>
+			<p class="max-w-155 md:text-lg md:leading-loose">
+				Bespoke celebration cakes and beautifully branded corporate treats, from a small kitchen in Leeds.
+			</p>
+			<div class="mt-2 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:gap-4">
+				<Button href="/custom-cakes" variant="light" class="min-h-12 px-8">Custom Cakes</Button>
+				<Button href="/corporate-gifting" variant="pink" class="min-h-12 px-8">Corporate Gifting</Button>
+			</div>
 		</div>
-		<p class="mt-1 font-display text-lg text-rose italic">
-			Every order is baked to order — no two cakes are quite the same.
-		</p>
 	</section>
 
-	<!-- PHOTO STRIP: one photo on phones; three from sm: up, the first wider
-	     (a 7-column grid split 3 / 2 / 2). The wide slot gets a landscape photo;
-	     the narrow ones get tall cakes. eager: these are near the top of the page,
-	     so they shouldn't wait for lazy loading. -->
-	<div class="mx-auto grid max-w-content gap-4.5 px-5 pb-9 sm:grid-cols-7 lg:px-14 lg:pb-14">
-		<Photo
-			arch
-			{...photos.cupcakes.strawberryBoard}
-			eager
-			sizes="(min-width: 640px) 43vw, 100vw"
-			class="h-64 sm:col-span-3 lg:h-80"
-		/>
-		<!-- Wrappers do the hiding: putting "hidden" on Photo itself would fight
-		     with the display it already has -->
-		<div class="hidden sm:col-span-2 sm:block">
-			<Photo {...photos.wedding.dAndTMonogram} arch eager sizes="29vw" class="h-64 lg:h-80" />
+	<!-- INTRO + THREE CARDS: square photo, title, line of text, pill button -->
+	<section class="mx-auto flex max-w-content flex-col gap-10 px-5 py-14 lg:px-14 lg:py-20">
+		<div class="mx-auto max-w-170 text-center">
+			<h2 class="mb-3 text-2xl lg:text-3xl">Bespoke cakes &amp; beautifully branded treats</h2>
+			<p class="leading-loose text-ink-soft">
+				Every order is baked to order — for weddings, birthdays and milestones, and for businesses who want to say
+				thank you with something special.
+			</p>
 		</div>
-		<div class="hidden sm:col-span-2 sm:block">
-			<Photo {...photos.birthday.navyGoldMyKing} arch eager sizes="29vw" class="h-64 lg:h-80" />
-		</div>
-	</div>
+		<ul class="grid gap-10 md:grid-cols-3 md:gap-8">
+			{
+				cards.map((card) => (
+					<li class="flex flex-col items-center gap-4 text-center">
+						<Photo {...card.photo} arch sizes="(min-width: 768px) 30vw, 100vw" class="aspect-4/5" />
+						<h3 class="text-xl">{card.title}</h3>
+						<p class="max-w-72 text-sm leading-loose text-ink-soft">{card.text}</p>
+						<Button href={card.link.href}>{card.link.label}</Button>
+					</li>
+				))
+			}
+		</ul>
+	</section>
 
-	<!-- TWO PATHS -->
-	<section class="scallop-top scallop-bottom bg-pink-tint">
-		<div class="mx-auto flex max-w-content flex-col gap-7 px-5 py-8 lg:px-14 lg:py-14">
-			<div class="text-center">
-				<h2 class="mb-2 text-2xl">Two ways to order</h2>
-				<p class="text-ink-soft">
-					Whether you're gifting on behalf of a company, or celebrating something personal.
-				</p>
-			</div>
-			<div class="grid gap-5 md:grid-cols-2 md:gap-6">
+	<!-- ABOUT: photo left, text right, edge to edge (no max-width on the grid).
+	     The photo cell has no height of its own: grid rows are as tall as their
+	     tallest cell, so the text decides the height and the absolute photo fills it.
+	     min-h-96 gives the photo a height on phones, where it stacks above the text.
+	     object-top keeps her face in frame when the cell crops the photo.
+	     z-10: the next section's photo is also absolutely positioned and comes later
+	     in the page, so without it that photo would paint over our bottom scallop. -->
+	<section class="z-10 grid scallop-top scallop-bottom bg-sand md:grid-cols-2">
+		<div class="relative min-h-96">
+			<Image
+				{...photos.about.abimbolaPortrait}
+				{...fullBleed}
+				sizes="(min-width: 768px) 50vw, 100vw"
+				class={`${fullBleed.class} object-top`}
+			/>
+		</div>
+		<div class="flex flex-col justify-center gap-4 px-5 py-14 md:px-10 lg:px-24 lg:py-24">
+			<h2 class="text-2xl lg:text-3xl">Hello, I'm Abimbola</h2>
+			<!-- Adapted from her story on the About page: Abimbola to approve -->
+			<p class="leading-loose text-ink-soft">
+				I tasted cake for the very first time as a young girl in Nigeria, and I couldn't stop wondering how something
+				could taste so good. That moment lit a fire in me — and it's why I bake: so that whoever tastes my cake has an
+				experience that leaves a lasting impression.
+			</p>
+			<Signature />
+			<Button href="/about" variant="outline" class="mt-2 self-start">More about me</Button>
+		</div>
+	</section>
+
+	<!-- BAKED IN LEEDS: the mirror image — text left, photo right. Same grid trick;
+	     on phones the text comes first in the source, so it stacks first. -->
+	<section class="grid md:grid-cols-2">
+		<div class="flex flex-col justify-center gap-4 px-5 py-14 md:px-10 lg:px-24 lg:py-24">
+			<h2 class="text-2xl lg:text-3xl">Baked by hand, in Leeds</h2>
+			<p class="leading-loose text-ink-soft">
+				Every Light Cakes order is made to order — designed with you, then baked by hand in small batches. We deliver to{" "}
+				{DELIVERY_AREA}.
+			</p>
+			<p class="leading-loose text-ink-soft">
+				Ordering for a company? Formal quotes, invoicing and PO references are all handled.
+			</p>
+			<Button href="/corporate-gifting#quote" class="mt-2 self-start">Request a quote</Button>
+		</div>
+		<div class="relative min-h-80">
+			<Image {...photos.cupcakes.vanillaBoard} {...fullBleed} sizes="(min-width: 768px) 50vw, 100vw" />
+		</div>
+	</section>
+
+	<!-- CLIENT LOGOS: placeholders. Only use a company's logo with its permission;
+	     delete this whole section if she'd rather not show any. -->
+	<section class="scallop-top scallop-bottom bg-sand">
+		<div class="mx-auto flex max-w-content flex-col gap-8 px-5 py-14 lg:px-14">
+			<h2 class="text-center text-2xl">Among our clients</h2>
+			<ul class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
 				{
-					paths.map((path) => (
-						<div class="flex flex-col gap-3.5 rounded-md bg-ground p-5 lg:p-8">
-							<Photo {...path.photo} sizes="(min-width: 768px) 45vw, 100vw" class="h-56 lg:h-64" />
-							<h3 class="text-xl">{path.title}</h3>
-							<p class="text-sm leading-loose text-ink-soft">{path.text}</p>
-							<a
-								href={path.link.href}
-								class="mt-1 flex min-h-11 items-center self-start text-sm font-semibold text-rose underline underline-offset-4"
-							>
-								{path.link.label} <span aria-hidden="true">&nbsp;→</span>
-							</a>
-						</div>
+					[1, 2, 3, 4, 5].map(() => (
+						<li class="flex h-20 items-center justify-center border border-dashed border-ink/25 text-xs text-ink-soft">
+							[Client logo]
+						</li>
 					))
 				}
-			</div>
+			</ul>
 		</div>
 	</section>
 
-	<!-- HOW ORDERING WORKS -->
-	<section class="mx-auto flex max-w-content flex-col gap-8 px-5 py-9 lg:px-14 lg:py-15">
-		<h2 class="text-center text-2xl">How ordering works</h2>
-		<ProcessSteps steps={steps} />
-	</section>
-
-	<!-- RECENT WORK -->
-	<section id="gallery" class="mx-auto flex max-w-content flex-col gap-6 px-5 pb-9 lg:px-14 lg:pb-15">
-		<div class="flex flex-wrap items-end justify-between gap-2">
-			<h2 class="text-2xl">Recent work</h2>
-			<div class="flex flex-wrap gap-x-6">
-				<a href="/gallery" class="flex min-h-11 items-center text-sm font-semibold text-rose underline underline-offset-4">
-					See the full gallery <span aria-hidden="true">&nbsp;→</span>
-				</a>
-				<a
-					href={INSTAGRAM_URL}
-					class="flex min-h-11 items-center text-sm font-semibold text-rose underline underline-offset-4"
-				>
-					Instagram <span aria-hidden="true">&nbsp;→</span>
-				</a>
-			</div>
-		</div>
-		<Gallery photos={galleryPhotos} />
-	</section>
-
-	<!-- ABOUT: the authenticity section; it should sound like her, not like marketing -->
-	<section id="about" class="scallop-top scallop-bottom bg-sand">
-		<div class="mx-auto grid max-w-content items-center gap-8 px-5 py-10 md:grid-cols-2 lg:gap-12 lg:px-14 lg:py-15">
-			<!-- Arched, and narrower than its column so the arch reads as a tall window;
-			     object-top keeps her face in frame when the box crops the photo -->
-			<Photo {...photos.about.abimbolaPortrait} arch class="mx-auto h-96 max-w-sm object-top lg:h-120" />
-			<div class="flex flex-col gap-4">
-				<!-- ink, not rose: rose on sand is only ~4.2:1 -->
-				<p class="text-sm font-semibold tracking-widest text-ink-soft uppercase">The person behind it</p>
-				<h2 class="text-2xl">Hello, I'm Abimbola</h2>
-				<!-- Adapted from her story on the About page: Abimbola to approve -->
-				<p class="leading-loose text-ink-soft">
-					I tasted cake for the very first time as a young girl in Nigeria, and I couldn't stop wondering how something
-					could taste so good. That moment lit a fire in me — and it's why I bake: so that whoever tastes my cake has an
-					experience that leaves a lasting impression.
-				</p>
-				<Signature />
-				<a
-					href="/about"
-					class="flex min-h-11 items-center self-start text-sm font-semibold text-ink underline underline-offset-4"
-				>
-					More about me <span aria-hidden="true">&nbsp;→</span>
-				</a>
-			</div>
-		</div>
-	</section>
-
-	<!-- TESTIMONIALS -->
-	<section class="mx-auto flex max-w-content flex-col gap-7 px-5 py-10 lg:px-14 lg:py-15">
-		<h2 class="text-center text-2xl">What people say</h2>
-		<ul class="grid gap-6 md:grid-cols-3">
+	<!-- TESTIMONIALS: centred, no boxes. No star ratings until there are real reviews to rate. -->
+	<section class="mx-auto flex max-w-content flex-col gap-10 px-5 py-14 lg:px-14 lg:py-20">
+		<h2 class="text-center text-2xl lg:text-3xl">What people say</h2>
+		<ul class="grid gap-10 md:grid-cols-3">
 			{
 				testimonials.map((t) => (
 					<li>
 						<!-- figure + blockquote + figcaption: the HTML for "a quote and who said it" -->
-						<figure class="flex h-full flex-col gap-3.5 rounded-md border border-nude p-7">
-							<blockquote class="font-display text-lg leading-normal italic">"{t.quote}"</blockquote>
-							<figcaption class="text-xs font-semibold text-rose">{t.by}</figcaption>
+						<figure class="flex flex-col items-center gap-3 text-center">
+							<figcaption class="font-display text-lg">{t.by}</figcaption>
+							<blockquote class="leading-loose text-ink-soft italic">"{t.quote}"</blockquote>
 						</figure>
 					</li>
 				))
@@ -206,11 +179,24 @@ const testimonials = [
 		</ul>
 	</section>
 
-	<CtaBand
-		title="Have something to celebrate?"
-		text="Tell us the date and roughly what you have in mind — we'll come back to you within two working days."
-	>
-		<Button href="/enquire">Get a quote</Button>
-		<Button href={whatsappLink("Hi, I'd like to ask about an order.")} variant="outline">Message on WhatsApp</Button>
-	</CtaBand>
+	<!-- CALL TO ACTION: same photo-and-overlay technique as the hero -->
+	<section class="on-dark relative isolate">
+		<Image
+			{...photos.cupcakes.strawberryChocolatePair}
+			{...fullBleed}
+			sizes="100vw"
+			class={`${fullBleed.class} -z-10`}
+		/>
+		<div class="absolute inset-0 -z-10 bg-ink/70"></div>
+		<div class="mx-auto flex max-w-content flex-col items-center gap-4 px-5 py-20 text-center text-ground lg:px-14 lg:py-28">
+			<h2 class="text-2xl lg:text-3xl">Have something to celebrate?</h2>
+			<p class="max-w-135">
+				Tell us the date and roughly what you have in mind — we'll come back to you within two working days.
+			</p>
+			<div class="mt-2 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:gap-4">
+				<Button href="/enquire" variant="light">Get a quote</Button>
+				<Button href={whatsappLink("Hi, I'd like to ask about an order.")} variant="pink">Message on WhatsApp</Button>
+			</div>
+		</div>
+	</section>
 </BaseLayout>

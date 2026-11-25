@@ -1,0 +1,54 @@
+---
+// Row of social media icons (Instagram, X, Facebook). Used in the top bar and footer.
+//   <SocialLinks />
+// The URLs live in src/site.ts; any left empty there is skipped.
+// The icons are decorative (aria-hidden), so each link carries an aria-label
+// for screen readers. Icons use currentColor, so they take the text colour
+// of wherever they're placed.
+import { FACEBOOK_URL, INSTAGRAM_URL, X_URL } from "../site";
+
+interface Props {
+	class?: string;
+}
+
+const { class: className } = Astro.props;
+
+const links = [
+	{ href: INSTAGRAM_URL, label: "Instagram", icon: "instagram" },
+	{ href: X_URL, label: "X (Twitter)", icon: "x" },
+	{ href: FACEBOOK_URL, label: "Facebook", icon: "facebook" },
+].filter((link) => link.href);
+---
+
+<ul class:list={["flex items-center", className]}>
+	{
+		links.map((link) => (
+			<li>
+				<!-- size-11: a 44px tap target, even though the icon itself is smaller -->
+				<a
+					href={link.href}
+					aria-label={`Light Cakes on ${link.label}`}
+					class="flex size-11 items-center justify-center hover:opacity-70"
+				>
+					{link.icon === "instagram" && (
+						<svg aria-hidden="true" viewBox="0 0 24 24" class="size-4.5 fill-none stroke-current stroke-2">
+							<rect x="2" y="2" width="20" height="20" rx="5" />
+							<circle cx="12" cy="12" r="4" />
+							<circle cx="17.5" cy="6.5" r="0.5" />
+						</svg>
+					)}
+					{link.icon === "x" && (
+						<svg aria-hidden="true" viewBox="0 0 24 24" class="size-4 fill-current">
+							<path d="M18.9 1.15h3.68l-8.04 9.2L24 22.85h-7.4l-5.8-7.59-6.64 7.59H.47l8.6-9.83L0 1.15h7.6l5.24 6.93zm-1.29 19.5h2.04L6.49 3.24H4.3z" />
+						</svg>
+					)}
+					{link.icon === "facebook" && (
+						<svg aria-hidden="true" viewBox="0 0 24 24" class="size-4.5 fill-none stroke-current stroke-2">
+							<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+						</svg>
+					)}
+				</a>
+			</li>
+		))
+	}
+</ul>

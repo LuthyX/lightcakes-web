@@ -63,7 +63,7 @@ export const photos = {
 	about: {
 		abimbolaPortrait: {
 			src: abimbolaPortrait,
-			alt: "Abimbola, the baker behind LightCakes, in a red suit against a warm brown backdrop",
+			alt: "Abimbola, the baker behind Light Cakes, in a red suit against a warm brown backdrop",
 		},
 	},
 	wedding: {

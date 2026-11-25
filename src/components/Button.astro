@@ -4,7 +4,7 @@
 //   <Button href="/enquire" variant="outline">Send an enquiry</Button>
 interface Props {
 	href: string;
-	variant?: "primary" | "outline" | "pink";
+	variant?: "primary" | "outline" | "pink" | "light";
 	// `class` is a reserved word in JS, so it's renamed on the way in
 	class?: string;
 }
@@ -13,17 +13,19 @@ const { href, variant = "primary", class: className } = Astro.props;
 
 // Every variant has a 2px border (transparent when filled), so all three
 // are exactly the same height when they sit side by side.
+// "light" is for buttons sitting on a darkened photo.
 const variants = {
 	primary: "border-transparent bg-ink text-ground",
 	outline: "border-ink text-ink",
 	pink: "border-transparent bg-pink text-ink",
+	light: "border-transparent bg-ground text-ink",
 };
 ---
 
 <a
 	href={href}
 	class:list={[
-		"inline-flex min-h-11 items-center justify-center rounded-sm border-2 px-6 text-sm font-semibold transition-transform duration-200 motion-safe:hover:-translate-y-0.5",
+		"inline-flex min-h-11 items-center justify-center rounded-full border-2 px-6 text-sm font-semibold transition-transform duration-200 motion-safe:hover:-translate-y-0.5",
 		variants[variant],
 		className,
 	]}

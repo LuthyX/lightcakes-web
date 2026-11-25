@@ -170,7 +170,7 @@ Direction is "Warm & Handcrafted" — ivory ground, warm brown text, pale pink a
 
 ## Placeholders
 
-**The business name is LightCakes** (one word, capital C — confirmed by Peter). **The owner is Abimbola Ademoluti, based in Leeds, UK** (delivers to Leeds, Wakefield, Sheffield, Manchester, York, Middlesbrough, Huddersfield and Bradford — `DELIVERY_AREA` in `src/site.ts`). Instagram: `https://www.instagram.com/lightcakes_/` (set as `INSTAGRAM_URL` in `src/site.ts`). The logo source is `public/images/main.png` (1080×1350, LC monogram + wordmark on an off-white background); `public/images/logo-mark.png` (monogram, transparent) is used in the nav and `public/favicon.png` / `favicon.ico` are generated from it.
+**The business name is Light Cakes** (two words — confirmed by Abimbola, Nov 2026; replaced "LightCakes"). **The owner is Abimbola Ademoluti, based in Leeds, UK** (delivers to Leeds, Wakefield, Sheffield, Manchester, York, Middlesbrough, Huddersfield and Bradford — `DELIVERY_AREA` in `src/site.ts`). Instagram: `https://www.instagram.com/lightcakes_/` (set as `INSTAGRAM_URL` in `src/site.ts`). The logo source is `public/images/main.png` (1080×1350, LC monogram + wordmark on an off-white background); `public/images/logo-mark.png` (monogram, transparent) is used in the nav and `public/favicon.png` / `favicon.ico` are generated from it.
 
 **Confirmed by Abimbola (Nov 2026):**
 - Notice: custom cakes 7 days, wedding cakes 3 weeks, corporate orders 10 working days; cake slices always available.
